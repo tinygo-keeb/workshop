@@ -46,7 +46,7 @@ func main() {
 	oldValue := int16(0)
 	for {
 		if newValue := int16(enc.Position()) % alphabetWidth; newValue != oldValue {
-			display.ClearDisplay()
+			display.ClearBuffer()
 			oldValue = newValue
 
 			println("value: ", newValue)
