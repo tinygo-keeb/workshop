@@ -32,7 +32,7 @@ For TinyGo, we have included the URL for v0.35.0, which is the latest version at
     * https://github.com/tinygo-org/tinygo/releases/latest
         * installation instructions : https://tinygo.org/getting-started/install/
 
-Note, that there is a version combination between Go and TinyGo.
+Note that there is a version combination between Go and TinyGo.
 Basically, TinyGo must be used with the latest and most recent version of Go.
 
 | TinyGo | Compatible Go |
