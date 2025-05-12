@@ -18,8 +18,8 @@ import (
 
 const (
 	cable    = 0
-	channel  = 1 // ピアノチャンネル
-	drumCh   = 9 // ドラムチャンネル
+	channel  = 1  // ピアノチャンネル
+	drumCh   = 10 // ドラムチャンネル
 	velocity = 0x7F
 	bpm      = 100 // リズムパターンのテンポ
 
@@ -876,6 +876,9 @@ func updateState(s state, btn bool) state {
 
 func programChange(cable, channel uint8, patch uint8) []byte {
 	var pbuf [4]byte
-	pbuf[0], pbuf[1], pbuf[2], pbuf[3] = ((cable&0xf)<<4)|midi.CINProgramChange, midi.MsgProgramChange|((channel-1)&0xf), patch&0x7f, 0x00
+	pbuf[0] = ((cable & 0xf) << 4) | midi.CINProgramChange
+	pbuf[1] = midi.MsgProgramChange | ((channel - 1) & 0x0f) // ← 1-origin に対応
+	pbuf[2] = patch & 0x7f
+	pbuf[3] = 0x00
 	return pbuf[:4]
 }
