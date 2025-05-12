@@ -102,6 +102,7 @@ var drumNames = map[uint8]string{
 
 var lastNoteOnTime time.Time
 var notesToTurnOff []uint8
+var lastRedrawTime time.Time
 
 type DrumPattern struct {
 	Name    string    // パターン名
@@ -547,7 +548,6 @@ func main() {
 
 	var lastDrumTime time.Time
 	currentStep := 0
-	cnt := 0
 
 	for {
 		// ジョイスティック X 軸処理
@@ -670,13 +670,16 @@ func main() {
 		// LED に色を反映
 		ws.WriteRaw(colors)
 
-		// 画面を更新
-		redraw(display, state)
-
-		if cnt > 0 && cnt%10 == 0 {
-			time.Sleep(1 * time.Millisecond)
+		// redraw は毎フレームではなく、一定間隔にする（例: 100ms）
+		now := time.Now()
+		if lastRedrawTime.IsZero() || now.Sub(lastRedrawTime) >= 100*time.Millisecond {
+			// 画面を更新
+			redraw(display, state)
+			lastRedrawTime = now
 		}
-		cnt++
+
+		// 軽い sleep（1ms）を入れるとCPU負荷が安定します
+		time.Sleep(1 * time.Millisecond)
 	}
 }
 
