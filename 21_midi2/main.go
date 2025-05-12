@@ -19,8 +19,8 @@ import (
 const (
 	cable    = 0
 	channel  = 1 // ピアノチャンネル
-	drumCh   = 9 // ドラムチャンネル (MIDI仕様では10チャンネル、0ベースでは9)
-	velocity = 0x40
+	drumCh   = 9 // ドラムチャンネル
+	velocity = 0x7F
 	bpm      = 100 // リズムパターンのテンポ
 
 	BassDrum      = 36 // バスドラム
@@ -99,6 +99,9 @@ var drumNames = map[uint8]string{
 	Claves:        "クラベス",
 	Maracas:       "マラカス",
 }
+
+var lastNoteOnTime time.Time
+var notesToTurnOff []uint8
 
 type DrumPattern struct {
 	Name    string    // パターン名
@@ -544,6 +547,7 @@ func main() {
 
 	var lastDrumTime time.Time
 	currentStep := 0
+	cnt := 0
 
 	for {
 		// ジョイスティック X 軸処理
@@ -603,16 +607,22 @@ func main() {
 		if state.DrumPlaying && state.DrumPatternIndex >= 0 && state.DrumPatternIndex < len(drumPatterns) {
 			currentPattern := drumPatterns[state.DrumPatternIndex]
 
-			// 次のステップを再生する時間になったか確認
-			if lastDrumTime.IsZero() || time.Since(lastDrumTime) >= time.Duration(currentPattern.StepLen)*time.Millisecond {
-				for _, note := range currentPattern.Steps[currentStep] {
-					m.NoteOn(cable, drumCh, midi.Note(note), velocity)
-				}
-				time.Sleep(40 * time.Millisecond)
-
-				for _, note := range currentPattern.Steps[currentStep] {
+			// ノートオフ処理（前回の音を止める）
+			if !lastNoteOnTime.IsZero() && time.Since(lastNoteOnTime) >= 40*time.Millisecond && len(notesToTurnOff) > 0 {
+				for _, note := range notesToTurnOff {
 					m.NoteOff(cable, drumCh, midi.Note(note), 0)
 				}
+				notesToTurnOff = nil // クリア
+			}
+
+			// 次のステップを再生する時間になったか確認
+			if lastDrumTime.IsZero() || time.Since(lastDrumTime) >= time.Duration(currentPattern.StepLen)*time.Millisecond {
+				// 新しい音を鳴らす
+				notesToTurnOff = currentPattern.Steps[currentStep] // オフにする必要のあるノートを保存
+				for _, note := range notesToTurnOff {
+					m.NoteOn(cable, drumCh, midi.Note(note), velocity)
+				}
+				lastNoteOnTime = time.Now() // ノートオン時刻を記録
 
 				// 次のステップに進む
 				currentStep = (currentStep + 1) % len(currentPattern.Steps)
@@ -663,7 +673,10 @@ func main() {
 		// 画面を更新
 		redraw(display, state)
 
-		time.Sleep(10 * time.Millisecond)
+		if cnt > 0 && cnt%10 == 0 {
+			time.Sleep(1 * time.Millisecond)
+		}
+		cnt++
 	}
 }
 
