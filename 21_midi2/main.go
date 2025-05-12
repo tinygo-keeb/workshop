@@ -18,9 +18,9 @@ import (
 
 const (
 	cable    = 0
-	channel  = 1 // ピアノチャンネル
-	drumCh   = 9 // ドラムチャンネル (MIDI仕様では10チャンネル、0ベースでは9)
-	velocity = 0x40
+	channel  = 1  // ピアノチャンネル
+	drumCh   = 10 // ドラムチャンネル (MIDI仕様では10チャンネル、0ベースでは9)
+	velocity = 0x7F
 	bpm      = 100 // リズムパターンのテンポ
 
 	BassDrum      = 36 // バスドラム
@@ -545,6 +545,10 @@ func main() {
 	var lastDrumTime time.Time
 	currentStep := 0
 
+	xxx := time.Time{}
+	currentPattern := DrumPattern{}
+
+	cnt := 0
 	for {
 		// ジョイスティック X 軸処理
 		{
@@ -601,23 +605,28 @@ func main() {
 
 		// ドラムパターン再生処理
 		if state.DrumPlaying && state.DrumPatternIndex >= 0 && state.DrumPatternIndex < len(drumPatterns) {
-			currentPattern := drumPatterns[state.DrumPatternIndex]
+			currentPattern = drumPatterns[state.DrumPatternIndex]
 
 			// 次のステップを再生する時間になったか確認
 			if lastDrumTime.IsZero() || time.Since(lastDrumTime) >= time.Duration(currentPattern.StepLen)*time.Millisecond {
 				for _, note := range currentPattern.Steps[currentStep] {
 					m.NoteOn(cable, drumCh, midi.Note(note), velocity)
 				}
-				time.Sleep(40 * time.Millisecond)
-
-				for _, note := range currentPattern.Steps[currentStep] {
-					m.NoteOff(cable, drumCh, midi.Note(note), 0)
-				}
+				//time.Sleep(40 * time.Millisecond)
+				xxx = time.Now()
 
 				// 次のステップに進む
 				currentStep = (currentStep + 1) % len(currentPattern.Steps)
 				lastDrumTime = time.Now()
 			}
+		}
+
+		if !xxx.IsZero() && time.Since(xxx) >= 40*time.Millisecond {
+			for _, note := range currentPattern.Steps[currentStep] {
+				m.NoteOff(cable, drumCh, midi.Note(note), 0)
+			}
+
+			xxx = time.Time{}
 		}
 
 		// キーの状態更新と処理
@@ -642,7 +651,6 @@ func main() {
 				}
 
 				state.Keys[i] = true
-				time.Sleep(1 * time.Millisecond)
 
 			case on2off:
 				m.NoteOff(cable, channel, note, velocity)
@@ -653,17 +661,19 @@ func main() {
 				// 音名をクリア
 				state.ActiveNotes[i] = ""
 				state.Keys[i] = false
-				time.Sleep(1 * time.Millisecond)
 			}
 		}
 
-		// LED に色を反映
-		ws.WriteRaw(colors)
+		if cnt%10 == 0 {
+			// LED に色を反映
+			ws.WriteRaw(colors)
 
-		// 画面を更新
-		redraw(display, state)
+			// 画面を更新
+			redraw(display, state)
+		}
 
-		time.Sleep(10 * time.Millisecond)
+		cnt = (cnt + 1) % 10
+		time.Sleep(1 * time.Millisecond)
 	}
 }
 
