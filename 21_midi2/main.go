@@ -67,6 +67,7 @@ const (
 var (
 	displayWhite = color.RGBA{R: 0xFF, G: 0xFF, B: 0xFF, A: 0xFF}
 	displayBlack = color.RGBA{R: 0x00, G: 0x00, B: 0x00, A: 0xFF}
+	display      ssd1306.Device
 )
 
 // Not番号から音名のマッピング
@@ -428,7 +429,7 @@ func main() {
 	})
 
 	// ディスプレイ初期化
-	display := ssd1306.NewI2C(machine.I2C0)
+	display = ssd1306.NewI2C(machine.I2C0)
 	display.Configure(ssd1306.Config{
 		Address: 0x3C,
 		Width:   128,
@@ -544,11 +545,12 @@ func main() {
 	prevY := uint16(0)
 
 	// 初期表示
-	redraw(display, state)
+	redraw(state)
 
 	var lastDrumTime time.Time
 	currentStep := 0
 
+	ticker := time.Tick(1 * time.Millisecond)
 	for {
 		// ジョイスティック X 軸処理
 		{
@@ -588,7 +590,7 @@ func main() {
 			}
 
 			// ディスプレイ更新
-			redraw(display, state)
+			redraw(state)
 
 			encOldValue = newValue
 		}
@@ -599,10 +601,11 @@ func main() {
 			// ボタンが押された
 			state.DrumPlaying = !state.DrumPlaying
 			// ディスプレイ更新
-			redraw(display, state)
+			redraw(state)
 		}
 		prevRotaryButton = currentRotaryButton
 
+		<-ticker
 		// ドラムパターン再生処理
 		if state.DrumPlaying && state.DrumPatternIndex >= 0 && state.DrumPatternIndex < len(drumPatterns) {
 			currentPattern := drumPatterns[state.DrumPatternIndex]
@@ -652,7 +655,6 @@ func main() {
 				}
 
 				state.Keys[i] = true
-				time.Sleep(1 * time.Millisecond)
 
 			case on2off:
 				m.NoteOff(cable, channel, note, velocity)
@@ -663,28 +665,26 @@ func main() {
 				// 音名をクリア
 				state.ActiveNotes[i] = ""
 				state.Keys[i] = false
-				time.Sleep(1 * time.Millisecond)
 			}
 		}
 
-		// LED に色を反映
-		ws.WriteRaw(colors)
-
 		// redraw は毎フレームではなく、一定間隔にする（例: 100ms）
 		now := time.Now()
-		if lastRedrawTime.IsZero() || now.Sub(lastRedrawTime) >= 100*time.Millisecond {
-			// 画面を更新
-			redraw(display, state)
-			lastRedrawTime = now
-		}
+		if true {
+			if lastRedrawTime.IsZero() || now.Sub(lastRedrawTime) >= 100*time.Millisecond {
+				// LED に色を反映
+				ws.WriteRaw(colors)
 
-		// 軽い sleep（1ms）を入れるとCPU負荷が安定します
-		time.Sleep(1 * time.Millisecond)
+				// 画面を更新
+				redraw(state)
+				lastRedrawTime = now
+			}
+		}
 	}
 }
 
-func redraw(d ssd1306.Device, state State) {
-	d.ClearBuffer()
+func redraw(state State) {
+	display.ClearBuffer()
 
 	sz := int16(8)
 
@@ -693,12 +693,12 @@ func redraw(d ssd1306.Device, state State) {
 	if state.DrumPatternIndex >= 0 && state.DrumPatternIndex < len(drumPatterns) {
 		patternName = drumPatterns[state.DrumPatternIndex].Name
 	}
-	tinyfont.WriteLine(&d, &shnm.Shnmk12, 5, 12, patternName, displayWhite)
+	tinyfont.WriteLine(&display, &shnm.Shnmk12, 5, 12, patternName, displayWhite)
 
 	if state.DrumPlaying {
-		tinyfont.WriteLine(&d, &shnm.Shnmk12, 5, 24, "State: Playing", displayWhite)
+		tinyfont.WriteLine(&display, &shnm.Shnmk12, 5, 24, "State: Playing", displayWhite)
 	} else {
-		tinyfont.WriteLine(&d, &shnm.Shnmk12, 5, 24, "State: Pausing", displayWhite)
+		tinyfont.WriteLine(&display, &shnm.Shnmk12, 5, 24, "State: Pausing", displayWhite)
 	}
 
 	// キーボード表示
@@ -708,66 +708,66 @@ func redraw(d ssd1306.Device, state State) {
 	fontKeyNameY := (sz+2)*(3+0) + sz + 8
 
 	// 1行目のキー
-	Rectangle(state.Keys[0], &d, x+(sz+2)*0, (sz+2)*(3+0), sz, sz, displayWhite)
-	Rectangle(state.Keys[3], &d, x+(sz+2)*1, (sz+2)*(3+0), sz, sz, displayWhite)
-	Rectangle(state.Keys[6], &d, x+(sz+2)*2, (sz+2)*(3+0), sz, sz, displayWhite)
-	Rectangle(state.Keys[9], &d, x+(sz+2)*3, (sz+2)*(3+0), sz, sz, displayWhite)
+	Rectangle(state.Keys[0], &display, x+(sz+2)*0, (sz+2)*(3+0), sz, sz, displayWhite)
+	Rectangle(state.Keys[3], &display, x+(sz+2)*1, (sz+2)*(3+0), sz, sz, displayWhite)
+	Rectangle(state.Keys[6], &display, x+(sz+2)*2, (sz+2)*(3+0), sz, sz, displayWhite)
+	Rectangle(state.Keys[9], &display, x+(sz+2)*3, (sz+2)*(3+0), sz, sz, displayWhite)
 
 	// 音名表示
 	if state.ActiveNotes[0] != "" {
-		tinyfont.WriteLine(&d, &shnm.Shnmk12, fontKeyNameX, fontKeyNameY, state.ActiveNotes[0], displayWhite)
+		tinyfont.WriteLine(&display, &shnm.Shnmk12, fontKeyNameX, fontKeyNameY, state.ActiveNotes[0], displayWhite)
 	}
 	if state.ActiveNotes[3] != "" {
-		tinyfont.WriteLine(&d, &shnm.Shnmk12, fontKeyNameX, fontKeyNameY, state.ActiveNotes[3], displayWhite)
+		tinyfont.WriteLine(&display, &shnm.Shnmk12, fontKeyNameX, fontKeyNameY, state.ActiveNotes[3], displayWhite)
 	}
 	if state.ActiveNotes[6] != "" {
-		tinyfont.WriteLine(&d, &shnm.Shnmk12, fontKeyNameX, fontKeyNameY, state.ActiveNotes[6], displayWhite)
+		tinyfont.WriteLine(&display, &shnm.Shnmk12, fontKeyNameX, fontKeyNameY, state.ActiveNotes[6], displayWhite)
 	}
 	if state.ActiveNotes[9] != "" {
-		tinyfont.WriteLine(&d, &shnm.Shnmk12, fontKeyNameX, fontKeyNameY, state.ActiveNotes[9], displayWhite)
+		tinyfont.WriteLine(&display, &shnm.Shnmk12, fontKeyNameX, fontKeyNameY, state.ActiveNotes[9], displayWhite)
 	}
 
 	// 2行目のキー
-	Rectangle(state.Keys[1], &d, x+(sz+2)*0, (sz+2)*(3+1), sz, sz, displayWhite)
-	Rectangle(state.Keys[4], &d, x+(sz+2)*1, (sz+2)*(3+1), sz, sz, displayWhite)
-	Rectangle(state.Keys[7], &d, x+(sz+2)*2, (sz+2)*(3+1), sz, sz, displayWhite)
-	Rectangle(state.Keys[10], &d, x+(sz+2)*3, (sz+2)*(3+1), sz, sz, displayWhite)
+	Rectangle(state.Keys[1], &display, x+(sz+2)*0, (sz+2)*(3+1), sz, sz, displayWhite)
+	Rectangle(state.Keys[4], &display, x+(sz+2)*1, (sz+2)*(3+1), sz, sz, displayWhite)
+	Rectangle(state.Keys[7], &display, x+(sz+2)*2, (sz+2)*(3+1), sz, sz, displayWhite)
+	Rectangle(state.Keys[10], &display, x+(sz+2)*3, (sz+2)*(3+1), sz, sz, displayWhite)
 
 	// 音名表示
 	if state.ActiveNotes[1] != "" {
-		tinyfont.WriteLine(&d, &shnm.Shnmk12, fontKeyNameX, fontKeyNameY, state.ActiveNotes[1], displayWhite)
+		tinyfont.WriteLine(&display, &shnm.Shnmk12, fontKeyNameX, fontKeyNameY, state.ActiveNotes[1], displayWhite)
 	}
 	if state.ActiveNotes[4] != "" {
-		tinyfont.WriteLine(&d, &shnm.Shnmk12, fontKeyNameX, fontKeyNameY, state.ActiveNotes[4], displayWhite)
+		tinyfont.WriteLine(&display, &shnm.Shnmk12, fontKeyNameX, fontKeyNameY, state.ActiveNotes[4], displayWhite)
 	}
 	if state.ActiveNotes[7] != "" {
-		tinyfont.WriteLine(&d, &shnm.Shnmk12, fontKeyNameX, fontKeyNameY, state.ActiveNotes[7], displayWhite)
+		tinyfont.WriteLine(&display, &shnm.Shnmk12, fontKeyNameX, fontKeyNameY, state.ActiveNotes[7], displayWhite)
 	}
 	if state.ActiveNotes[10] != "" {
-		tinyfont.WriteLine(&d, &shnm.Shnmk12, fontKeyNameX, fontKeyNameY, state.ActiveNotes[10], displayWhite)
+		tinyfont.WriteLine(&display, &shnm.Shnmk12, fontKeyNameX, fontKeyNameY, state.ActiveNotes[10], displayWhite)
 	}
 
 	// 3行目のキー
-	Rectangle(state.Keys[2], &d, x+(sz+2)*0, (sz+2)*(3+2), sz, sz, displayWhite)
-	Rectangle(state.Keys[5], &d, x+(sz+2)*1, (sz+2)*(3+2), sz, sz, displayWhite)
-	Rectangle(state.Keys[8], &d, x+(sz+2)*2, (sz+2)*(3+2), sz, sz, displayWhite)
-	Rectangle(state.Keys[11], &d, x+(sz+2)*3, (sz+2)*(3+2), sz, sz, displayWhite)
+	Rectangle(state.Keys[2], &display, x+(sz+2)*0, (sz+2)*(3+2), sz, sz, displayWhite)
+	Rectangle(state.Keys[5], &display, x+(sz+2)*1, (sz+2)*(3+2), sz, sz, displayWhite)
+	Rectangle(state.Keys[8], &display, x+(sz+2)*2, (sz+2)*(3+2), sz, sz, displayWhite)
+	Rectangle(state.Keys[11], &display, x+(sz+2)*3, (sz+2)*(3+2), sz, sz, displayWhite)
 
 	// 音名表示
 	if state.ActiveNotes[2] != "" {
-		tinyfont.WriteLine(&d, &shnm.Shnmk12, fontKeyNameX, fontKeyNameY, state.ActiveNotes[2], displayWhite)
+		tinyfont.WriteLine(&display, &shnm.Shnmk12, fontKeyNameX, fontKeyNameY, state.ActiveNotes[2], displayWhite)
 	}
 	if state.ActiveNotes[5] != "" {
-		tinyfont.WriteLine(&d, &shnm.Shnmk12, fontKeyNameX, fontKeyNameY, state.ActiveNotes[5], displayWhite)
+		tinyfont.WriteLine(&display, &shnm.Shnmk12, fontKeyNameX, fontKeyNameY, state.ActiveNotes[5], displayWhite)
 	}
 	if state.ActiveNotes[8] != "" {
-		tinyfont.WriteLine(&d, &shnm.Shnmk12, fontKeyNameX, fontKeyNameY, state.ActiveNotes[8], displayWhite)
+		tinyfont.WriteLine(&display, &shnm.Shnmk12, fontKeyNameX, fontKeyNameY, state.ActiveNotes[8], displayWhite)
 	}
 	if state.ActiveNotes[11] != "" {
-		tinyfont.WriteLine(&d, &shnm.Shnmk12, fontKeyNameX, fontKeyNameY, state.ActiveNotes[11], displayWhite)
+		tinyfont.WriteLine(&display, &shnm.Shnmk12, fontKeyNameX, fontKeyNameY, state.ActiveNotes[11], displayWhite)
 	}
 
-	d.Display()
+	display.Display()
 }
 
 func Rectangle(b bool, d drivers.Displayer, x int16, y int16, w int16, h int16, c color.RGBA) error {
@@ -795,49 +795,41 @@ const (
 	on2off2
 	on2off3
 	on2off4
-	on2offX
+	on2off5
 )
 
 func getKeys(colPins, rowPins []machine.Pin) []state {
+	colPins[0].Configure(machine.PinConfig{Mode: machine.PinOutput})
 	colPins[0].High()
-	colPins[1].Low()
-	colPins[2].Low()
-	colPins[3].Low()
-	time.Sleep(1 * time.Millisecond)
-
 	States[0] = updateState(States[0], rowPins[0].Get())
 	States[1] = updateState(States[1], rowPins[1].Get())
 	States[2] = updateState(States[2], rowPins[2].Get())
-
 	colPins[0].Low()
-	colPins[1].High()
-	colPins[2].Low()
-	colPins[3].Low()
-	time.Sleep(1 * time.Millisecond)
+	colPins[0].Configure(machine.PinConfig{Mode: machine.PinInputPulldown})
 
+	colPins[1].Configure(machine.PinConfig{Mode: machine.PinOutput})
+	colPins[1].High()
 	States[3] = updateState(States[3], rowPins[0].Get())
 	States[4] = updateState(States[4], rowPins[1].Get())
 	States[5] = updateState(States[5], rowPins[2].Get())
-
-	colPins[0].Low()
 	colPins[1].Low()
-	colPins[2].High()
-	colPins[3].Low()
-	time.Sleep(1 * time.Millisecond)
+	colPins[1].Configure(machine.PinConfig{Mode: machine.PinInputPulldown})
 
+	colPins[2].Configure(machine.PinConfig{Mode: machine.PinOutput})
+	colPins[2].High()
 	States[6] = updateState(States[6], rowPins[0].Get())
 	States[7] = updateState(States[7], rowPins[1].Get())
 	States[8] = updateState(States[8], rowPins[2].Get())
-
-	colPins[0].Low()
-	colPins[1].Low()
 	colPins[2].Low()
-	colPins[3].High()
-	time.Sleep(1 * time.Millisecond)
+	colPins[2].Configure(machine.PinConfig{Mode: machine.PinInputPulldown})
 
+	colPins[3].Configure(machine.PinConfig{Mode: machine.PinOutput})
+	colPins[3].High()
 	States[9] = updateState(States[9], rowPins[0].Get())
 	States[10] = updateState(States[10], rowPins[1].Get())
 	States[11] = updateState(States[11], rowPins[2].Get())
+	colPins[3].Low()
+	colPins[3].Configure(machine.PinConfig{Mode: machine.PinInputPulldown})
 
 	return States[:]
 }
@@ -850,28 +842,36 @@ func updateState(s state, btn bool) state {
 			ret = off2on
 		}
 	case off2on:
-		ret = off2on2
-	case off2on2:
-		ret = off2on3
-	case off2on3:
-		ret = off2on4
-	case off2on4:
-		ret = off2onX
-	case off2onX:
 		ret = on
 	case on:
 		if !btn {
+			ret = on2off2
+		}
+	case on2off2:
+		if btn {
+			ret = on
+		} else {
+			ret = on2off3
+		}
+	case on2off3:
+		if btn {
+			ret = on
+		} else {
+			ret = on2off4
+		}
+	case on2off4:
+		if btn {
+			ret = on
+		} else {
+			ret = on2off5
+		}
+	case on2off5:
+		if btn {
+			ret = on
+		} else {
 			ret = on2off
 		}
 	case on2off:
-		ret = on2off2
-	case on2off2:
-		ret = on2off3
-	case on2off3:
-		ret = on2off4
-	case on2off4:
-		ret = on2offX
-	case on2offX:
 		ret = off
 	}
 	return ret
