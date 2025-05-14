@@ -550,6 +550,7 @@ func main() {
 	var lastDrumTime time.Time
 	currentStep := 0
 
+	ticker := time.Tick(1 * time.Millisecond)
 	for {
 		// ジョイスティック X 軸処理
 		{
@@ -604,6 +605,7 @@ func main() {
 		}
 		prevRotaryButton = currentRotaryButton
 
+		<-ticker
 		// ドラムパターン再生処理
 		if state.DrumPlaying && state.DrumPatternIndex >= 0 && state.DrumPatternIndex < len(drumPatterns) {
 			currentPattern := drumPatterns[state.DrumPatternIndex]
@@ -653,7 +655,6 @@ func main() {
 				}
 
 				state.Keys[i] = true
-				time.Sleep(1 * time.Millisecond)
 
 			case on2off:
 				m.NoteOff(cable, channel, note, velocity)
@@ -664,23 +665,21 @@ func main() {
 				// 音名をクリア
 				state.ActiveNotes[i] = ""
 				state.Keys[i] = false
-				time.Sleep(1 * time.Millisecond)
 			}
 		}
 
-		// LED に色を反映
-		ws.WriteRaw(colors)
-
 		// redraw は毎フレームではなく、一定間隔にする（例: 100ms）
 		now := time.Now()
-		if lastRedrawTime.IsZero() || now.Sub(lastRedrawTime) >= 100*time.Millisecond {
-			// 画面を更新
-			redraw(state)
-			lastRedrawTime = now
-		}
+		if true {
+			if lastRedrawTime.IsZero() || now.Sub(lastRedrawTime) >= 100*time.Millisecond {
+				// LED に色を反映
+				ws.WriteRaw(colors)
 
-		// 軽い sleep（1ms）を入れるとCPU負荷が安定します
-		time.Sleep(1 * time.Millisecond)
+				// 画面を更新
+				redraw(state)
+				lastRedrawTime = now
+			}
+		}
 	}
 }
 
@@ -796,49 +795,48 @@ const (
 	on2off2
 	on2off3
 	on2off4
-	on2offX
+	on2off5
 )
 
 func getKeys(colPins, rowPins []machine.Pin) []state {
+	colPins[0].Configure(machine.PinConfig{Mode: machine.PinOutput})
 	colPins[0].High()
-	colPins[1].Low()
-	colPins[2].Low()
-	colPins[3].Low()
-	time.Sleep(1 * time.Millisecond)
 
 	States[0] = updateState(States[0], rowPins[0].Get())
 	States[1] = updateState(States[1], rowPins[1].Get())
 	States[2] = updateState(States[2], rowPins[2].Get())
 
 	colPins[0].Low()
+	colPins[0].Configure(machine.PinConfig{Mode: machine.PinInputPulldown})
+
+	colPins[1].Configure(machine.PinConfig{Mode: machine.PinOutput})
 	colPins[1].High()
-	colPins[2].Low()
-	colPins[3].Low()
-	time.Sleep(1 * time.Millisecond)
 
 	States[3] = updateState(States[3], rowPins[0].Get())
 	States[4] = updateState(States[4], rowPins[1].Get())
 	States[5] = updateState(States[5], rowPins[2].Get())
 
-	colPins[0].Low()
 	colPins[1].Low()
+	colPins[1].Configure(machine.PinConfig{Mode: machine.PinInputPulldown})
+
+	colPins[2].Configure(machine.PinConfig{Mode: machine.PinOutput})
 	colPins[2].High()
-	colPins[3].Low()
-	time.Sleep(1 * time.Millisecond)
 
 	States[6] = updateState(States[6], rowPins[0].Get())
 	States[7] = updateState(States[7], rowPins[1].Get())
 	States[8] = updateState(States[8], rowPins[2].Get())
 
-	colPins[0].Low()
-	colPins[1].Low()
 	colPins[2].Low()
+	colPins[2].Configure(machine.PinConfig{Mode: machine.PinInputPulldown})
+
+	colPins[3].Configure(machine.PinConfig{Mode: machine.PinOutput})
 	colPins[3].High()
-	time.Sleep(1 * time.Millisecond)
 
 	States[9] = updateState(States[9], rowPins[0].Get())
 	States[10] = updateState(States[10], rowPins[1].Get())
 	States[11] = updateState(States[11], rowPins[2].Get())
+	colPins[3].Low()
+	colPins[3].Configure(machine.PinConfig{Mode: machine.PinInputPulldown})
 
 	return States[:]
 }
@@ -851,28 +849,37 @@ func updateState(s state, btn bool) state {
 			ret = off2on
 		}
 	case off2on:
-		ret = off2on2
-	case off2on2:
-		ret = off2on3
-	case off2on3:
-		ret = off2on4
-	case off2on4:
-		ret = off2onX
-	case off2onX:
 		ret = on
 	case on:
 		if !btn {
+			ret = on2off2
+		}
+	case on2off2:
+		if btn {
+			ret = on
+		} else {
+			ret = on2off3
+		}
+	case on2off3:
+		ret = on2off4
+		if btn {
+			ret = on
+		} else {
+			ret = on2off4
+		}
+	case on2off4:
+		if btn {
+			ret = on
+		} else {
+			ret = on2off5
+		}
+	case on2off5:
+		if btn {
+			ret = on
+		} else {
 			ret = on2off
 		}
 	case on2off:
-		ret = on2off2
-	case on2off2:
-		ret = on2off3
-	case on2off3:
-		ret = on2off4
-	case on2off4:
-		ret = on2offX
-	case on2offX:
 		ret = off
 	}
 	return ret
