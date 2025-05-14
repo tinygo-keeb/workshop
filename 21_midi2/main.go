@@ -63,13 +63,11 @@ const (
 	black  = 0x000000FF // 黒色
 )
 
-// ディスプレイ
-var display = ssd1306.NewI2C(machine.I2C0)
-
 // ディスプレイ用の色定義
 var (
 	displayWhite = color.RGBA{R: 0xFF, G: 0xFF, B: 0xFF, A: 0xFF}
 	displayBlack = color.RGBA{R: 0x00, G: 0x00, B: 0x00, A: 0xFF}
+	display      ssd1306.Device
 )
 
 // Not番号から音名のマッピング
@@ -431,6 +429,7 @@ func main() {
 	})
 
 	// ディスプレイ初期化
+	display = ssd1306.NewI2C(machine.I2C0)
 	display.Configure(ssd1306.Config{
 		Address: 0x3C,
 		Width:   128,
