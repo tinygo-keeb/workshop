@@ -787,6 +787,10 @@ Windows 環境では MIDI-OX を使うとよいでしょう。
 
 * http://www.midiox.com/
 
+以下の例も参考にしてください。  
+
+* [./21_midi2](./21_midi2//)
+
 # sago35/tinygo-keyboard を使う
 
 自作キーボードに必要な要素、というのは人によって違うと思います。
@@ -855,6 +859,7 @@ COM7                 2E8A:0003 waveshare-rp2040-zero
 * https://x.com/Ryu_07_29/status/1847921967070163377
 * [./19_redkey/](./19_redkey/)
 * [./20_rotary_gopher](./20_rotary_gopher/)
+* [./21_midi2](./21_midi2//)
 * https://github.com/conejoninja/midikeeb
 * https://x.com/triring/status/1891448348818776323
 * https://github.com/sago35/koebiten
