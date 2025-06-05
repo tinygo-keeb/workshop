@@ -24,4 +24,5 @@ smoketest:
 	tinygo build -o ./out/19_redkey.uf2             --target waveshare-rp2040-zero --size short ./19_redkey
 	tinygo build -o ./out/20_rotary_gopher.uf2      --target waveshare-rp2040-zero --size short ./20_rotary_gopher
 	tinygo build -o ./out/21_midi2.uf2              --target waveshare-rp2040-zero --size short ./21_midi2
+	tinygo build -o ./out/22_buzzer.uf2             --target waveshare-rp2040-zero --size short ./22_buzzer
 	tinygo build -o ./out/80_checker.uf2            --target waveshare-rp2040-zero --size short ./80_checker

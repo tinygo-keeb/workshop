@@ -791,6 +791,76 @@ Windows 環境では MIDI-OX を使うとよいでしょう。
 
 * [./21_midi2](./21_midi2//)
 
+## buzzer を使う
+
+※この例を試すには他励ブザーが必要です  
+※ EX01 と 3V3 間にブザーをつないでください。  
+
+![](./images/22_buzzer.jpg)
+
+ブザーを鳴らす方法はいろいろありますが、ここでは PWM を使用します。  
+TinyGo で PWM を使用する場合、マイコン毎の設定が若干残っていることに注意が必要です。  
+
+RP2040 で zero-kb02 の背面端子 (EX01 - EX04) を使う場合は以下のような設定を使用することができます。  
+必要なのはどのピンを使うか、どの PWMGroup を使うか、です。  
+以下ではピンに対応する PWMGroup のマップを作製しました。  
+
+```go
+var pinToPWM = map[machine.Pin]tone.PWM{
+	machine.GPIO14: machine.PWM7, // for EX01
+	machine.GPIO15: machine.PWM7, // for EX02
+	machine.GPIO26: machine.PWM5, // for EX01
+	machine.GPIO27: machine.PWM5, // for EX01
+}
+```
+
+このあとは tinygo.org/x/drivers/tone を使うと音を鳴らすことができます。  
+
+```go
+func main() {
+	bzrPin := machine.GPIO14
+	pwm := pinToPWM[bzrPin]
+	speaker, err := tone.New(pwm, bzrPin)
+	if err != nil {
+		println("failed to configure PWM")
+		return
+	}
+
+	song := []tone.Note{
+		tone.C5,
+		tone.D5,
+		tone.E5,
+		tone.F5,
+		tone.G5,
+		tone.A5,
+		tone.B5,
+		tone.C6,
+		tone.C6,
+		tone.B5,
+		tone.A5,
+		tone.G5,
+		tone.F5,
+		tone.E5,
+		tone.D5,
+		tone.C5,
+	}
+
+	for {
+		for _, val := range song {
+			speaker.SetNote(val)
+			time.Sleep(time.Second / 2)
+		}
+	}
+}
+```
+
+* 他励ブザーの例
+  * https://akizukidenshi.com/catalog/g/g104118/
+* 参考ソース
+  * https://github.com/tinygo-org/drivers/blob/release/examples/tone/tone.go
+  * https://github.com/sago35/tinygo-examples/blob/main/wioterminal/buzzer/main.go
+
+
 # sago35/tinygo-keyboard を使う
 
 自作キーボードに必要な要素、というのは人によって違うと思います。
