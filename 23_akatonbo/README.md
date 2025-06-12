@@ -20,10 +20,9 @@
 - EX1と3V3(もしくはGND)をブザー(圧電サウンダー)に接続してください。
 
 ## ビルド方法
-このプロジェクトは2つのファイルで構成されており、`go.mod`が含まれています。以下の手順でビルドしてください。
 
 ```bash
-tinygo flash -target waveshare-rp2040-zero --size short
+tinygo flash -target waveshare-rp2040-zero --size short .
 ```
 
 - 必要に応じて、`-port`オプションを指定してください（例: `-port com5`）。
