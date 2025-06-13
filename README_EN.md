@@ -864,6 +864,8 @@ If not recognized, disconnect the microcontroller from the PC and reconnect it. 
 * https://x.com/Ryu_07_29/status/1847921967070163377
 * [./19_redkey/](./19_redkey/)
 * [./20_rotary_gopher](./20_rotary_gopher/)
+* [./21_midi2](./21_midi2/)
+* [./23_akatonbo](./23_akatonbo/)
 * https://github.com/conejoninja/midikeeb
 * https://x.com/triring/status/1891448348818776323
 * https://github.com/sago35/koebiten
