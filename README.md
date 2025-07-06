@@ -19,7 +19,7 @@
 ## TinyGo のインストール
 
 以下のインストールが必要です。
-TinyGo については、このページの記入時点の最新版である v0.32.0 の URL を記載しましたが、適宜最新バージョンを使用してください。
+TinyGo については、適宜最新バージョンを使用してください。
 
 * Git
     * https://git-scm.com/downloads
@@ -36,7 +36,7 @@ TinyGo は基本的に最新および直前 Version の Go と組み合わせて
 
 | TinyGo | 対応する Go |
 | ------ | ----------- |
-| 0.35.0 | 1.23 - 1.22 |
+| 0.38.0 | 1.24 - 1.23 |
 
 それぞれの実行体に PATH が通っていれば使うことができます。
 少し Version が古いですが以下も参考になると思います。
@@ -47,22 +47,22 @@ TinyGo は基本的に最新および直前 Version の Go と組み合わせて
 
 ```
 $ tinygo version
-tinygo version 0.35.0 windows/amd64 (using go version go1.23.6 and LLVM version 18.1.2)
+tinygo version 0.38.0 windows/amd64 (using go version go1.24.4 and LLVM version 19.1.2)
 ```
 
 ```
 $ tinygo build -o out.uf2 --target waveshare-rp2040-zero --size short examples/serial
    code    data     bss |   flash     ram
-   7836     108    3152 |    7944    3260
+   9824     108    5240 |    9932    5348
 ```
 
 ```
 $ tinygo flash --target waveshare-rp2040-zero --size short examples/serial
    code    data     bss |   flash     ram
-   7932     108    3168 |    8040    3276
+   9824     108    5240 |    9932    5348
 
 $ tinygo monitor --target waveshare-rp2040-zero
-Connected to COM4. Press Ctrl-C to exit.
+Connected to COM12. Press Ctrl-C to exit.
 hello world!
 hello world!
 hello world!
@@ -137,6 +137,12 @@ Vim (+ vim-lsp) の場合は `github.com/sago35/tinygo.vim` を使ってみて�
 * [TinyGo + 'VSCode or Vim (もしくはそれ以外の LSP 対応エディタ)' で gopls 連携する方法](https://qiita.com/sago35/items/c30cbce4a0a3e12d899c)
 * [TinyGo + Vim で gopls するための設定](https://qiita.com/sago35/items/f0b058ed5c32b6446834)
 
+## コマンドライン補完 (Bash / Zsh / Clink)
+
+Bash / Zsh / Clink を使っている場合は、以下をインストールすることでコマンドライン補完を導入できます。
+
+https://github.com/sago35/tinygo-autocmpl
+
 # 開発対象
 
 TinyGo Keeb Tour では zero-kb02 という自作キーボード／マクロパッドを使用します。
@@ -200,7 +206,7 @@ RP2040 搭載のボードは BOOT / BOOTSEL と呼ばれているボタンを押
 
 ※この書き込み方法は TinyGo 以外で作られた uf2 ファイルに対しても有効です
 
-上記の 00_basic.uf2 を自分で作成する場合は以下のコマンドを実行します。
+上記の `00_basic.uf2` を自分で作成する場合は以下のコマンドを実行します。
 エラーメッセージ等が表示されず、 `00_basic.uf2` ができていれば成功です。
 
 ```
@@ -260,7 +266,9 @@ hello world!
 hello world!
 ```
 
-### macOS 15 Sequoia で tinygo flash 出来ない場合
+### macOS 15 Sequoia で tinygo flash 出来ない場合 (TinyGo 0.37 以前のみ)
+
+※この問題は [micchie さんにより修正され](https://github.com/tinygo-org/tinygo/pull/4928) TinyGo 0.38 にマージされました
 
 `$TINYGOROOT/targets/rp2040.json` の `msd-volume-name` に `NO NAME` を追加してください。  
 $TINYGOROOT は `tinygo env` で調べることができます。  
@@ -790,6 +798,7 @@ Windows 環境では MIDI-OX を使うとよいでしょう。
 以下の例も参考にしてください。  
 
 * [./21_midi2](./21_midi2//)
+* https://github.com/conejoninja/midikeeb
 
 ## buzzer を使う
 
@@ -859,7 +868,8 @@ func main() {
 * 参考ソース
   * https://github.com/tinygo-org/drivers/blob/release/examples/tone/tone.go
   * https://github.com/sago35/tinygo-examples/blob/main/wioterminal/buzzer/main.go
-
+  * [./23_akatonbo](./23_akatonbo/)
+  * https://github.com/triring/7Keyx3Oct
 
 # sago35/tinygo-keyboard を使う
 
@@ -900,14 +910,28 @@ Vial は以下にあり、 WebHID API に対応した Edge / Chrome などから
 * [Create Your Own Keyboard with sago35/tinygo-keyboard](https://dev.to/sago35/create-your-own-keyboard-with-sago35tinygo-keyboard-4gbj)
 
 
-## zero-kb02 の firmware
+## zero-kb02 の tinygo-keybord firmware
 
 以下にあります。
 
 * https://github.com/sago35/keyboards
 
+# koebiten
 
-## トラブルシュート
+TinyGo 向けに 2D ゲームエンジン `koebiten` を開発しています。
+これは、 Go 向け 2D ゲームエンジン `Ebitengine` の TinyGo 版のような位置づけです。
+zero-kb02 を含む複数のハードウェアへの対応、シンプルな API が特徴です。
+
+サンプルの実行してみるだけでもよいでしょう。
+以下から UF2 をダウンロードすることができます。
+
+* https://github.com/sago35/koebiten/releases
+
+Zenn にて入門記事を作っているので参考にしてください。
+
+* https://zenn.dev/sago35/books/b0d993b62f05c9
+
+# トラブルシュート
 
 - プログラムの書き込みが出来ない
 
@@ -921,7 +945,7 @@ COM7                 2E8A:0003 waveshare-rp2040-zero
 
 認識されていない場合は、マイコンをPCから外して挿し直してください。
 
-## 作例
+# 作例
 
 * https://x.com/ysaito8015/status/1827626098450166185
 * https://x.com/ysaito8015/status/1827630059580231788
@@ -929,9 +953,12 @@ COM7                 2E8A:0003 waveshare-rp2040-zero
 * https://x.com/Ryu_07_29/status/1847921967070163377
 * [./19_redkey/](./19_redkey/)
 * [./20_rotary_gopher](./20_rotary_gopher/)
-* [./21_midi2](./21_midi2/)
-* [./23_akatonbo](./23_akatonbo/)
-* https://github.com/conejoninja/midikeeb
+* MIDI
+  * [./21_midi2](./21_midi2/)
+  * https://github.com/conejoninja/midikeeb
+* buzzer
+  * [./23_akatonbo](./23_akatonbo/)
+  * https://github.com/triring/7Keyx3Oct
 * https://x.com/triring/status/1891448348818776323
 * https://github.com/sago35/koebiten
 
