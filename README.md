@@ -783,7 +783,7 @@ $ tinygo flash --target waveshare-rp2040-zero --size short ./15_hid_mouse/
 TinyGo は USB MIDI に対応しているので、 MIDI 音源にしたり、 MIDI 楽器にすることができます。  
 12 個のキーおよびロータリーエンコーダーの押し込みを使用することができます。  
 
-```
+```shell
 $ tinygo flash --target waveshare-rp2040-zero --size short ./18_midi/
 ```
 
@@ -803,9 +803,10 @@ Windows 環境では MIDI-OX を使うとよいでしょう。
 ## buzzer を使う
 
 ※この例を試すには他励ブザーが必要です  
-※ EX01 と 3V3 間にブザーをつないでください。  
+※ EX01 と 3V3 間にブザーをつないでください。 表面を上にして、上段の左端とひとつあけて左から3番目にブザーを接続します。
 
 ![](./images/22_buzzer.jpg)
+![](./images/22_buzzer_position.jpg))
 
 ブザーを鳴らす方法はいろいろありますが、ここでは PWM を使用します。  
 TinyGo で PWM を使用する場合、マイコン毎の設定が若干残っていることに注意が必要です。  
@@ -861,6 +862,10 @@ func main() {
 		}
 	}
 }
+```
+
+```shell
+$ tinygo flash --target waveshare-rp2040-zero --size short  ./22_buzzer/
 ```
 
 * 他励ブザーの例
