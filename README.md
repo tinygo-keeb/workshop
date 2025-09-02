@@ -36,6 +36,7 @@ TinyGo は基本的に最新および直前 Version の Go と組み合わせて
 
 | TinyGo | 対応する Go |
 | ------ | ----------- |
+| 0.39.0 | 1.25 - 1.24 |
 | 0.38.0 | 1.24 - 1.23 |
 
 それぞれの実行体に PATH が通っていれば使うことができます。
@@ -47,7 +48,7 @@ TinyGo は基本的に最新および直前 Version の Go と組み合わせて
 
 ```
 $ tinygo version
-tinygo version 0.38.0 windows/amd64 (using go version go1.24.4 and LLVM version 19.1.2)
+tinygo version 0.39.0 windows/amd64 (using go version go1.25.0 and LLVM version 19.1.2)
 ```
 
 ```
