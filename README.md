@@ -877,6 +877,38 @@ $ tinygo flash --target waveshare-rp2040-zero --size short  ./22_buzzer/
   * [./23_akatonbo](./23_akatonbo/)
   * https://github.com/triring/7Keyx3Oct
 
+## I2C 接続の温湿度センサーを使う
+
+※ この例を試すには I2C 接続の SHT4x (SHT40 / SHT41 など) が必要です
+※ GROVE 端子に接続してください
+
+![](./images/24_sht40.jpg)
+
+ここでは GROVE 端子に接続した I2C のセンサーを使用してみます。  
+GROVE 端子は oled と同じピンにつながっているので I2C0 を使う必要があります。  
+
+Frequency は 2.8MHz としていますが、スペック上は 400KHz とかに下げる必要があります。  
+
+温度と湿度については `ReadTemperatureHumidity()` で取得可能です。  
+
+```go
+	// import "tinygo.org/x/drivers/sht4x" が必要
+	machine.I2C0.Configure(machine.I2CConfig{
+		Frequency: 2.8 * machine.MHz,
+		SDA:       machine.GPIO12,
+		SCL:       machine.GPIO13,
+	})
+	sensor := sht4x.New(machine.I2C0)
+	temp, humidity, _ := sensor.ReadTemperatureHumidity()
+	t := fmt.Sprintf("温度 %.2f ℃", float32(temp)/1000)
+	h := fmt.Sprintf("湿度 %.2f ％", float32(humidity)/1000)
+```
+
+* SHT4x 入手元
+  * https://www.switch-science.com/products/9270
+  * https://www.switch-science.com/products/8737
+  * https://akizukidenshi.com/catalog/g/g130207/
+
 # sago35/tinygo-keyboard を使う
 
 自作キーボードに必要な要素、というのは人によって違うと思います。
