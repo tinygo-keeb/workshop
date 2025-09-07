@@ -2,15 +2,9 @@ github.com/google/shlex v0.0.0-20191202100458-e7afc7fbc510 h1:El6M4kTTCOh6aBiKaU
 github.com/google/shlex v0.0.0-20191202100458-e7afc7fbc510/go.mod h1:pupxD2MaaD3pAXIBCelhxNneeOaAeabZDe5s4K6zSpQ=
 github.com/tinygo-org/pio v0.0.0-20240626192653-0b4cbef45f9b h1:ahoIWyyWUM8F+eDRzA2FS7gKiu9Tk/Lyacv7z3nn+Fg=
 github.com/tinygo-org/pio v0.0.0-20240626192653-0b4cbef45f9b/go.mod h1:LU7Dw00NJ+N86QkeTGjMLNkYcEYMor6wTDpTCu0EaH8=
-tinygo.org/x/drivers v0.28.0 h1:ROVrGGXddmpn2+oV/Bu3LceYbtPCJckmgIqvPcN/L0k=
-tinygo.org/x/drivers v0.28.0/go.mod h1:T6snsUqS0RAxOANxiV81fQwLxDDNmprxTAYzmxoA7J0=
 tinygo.org/x/drivers v0.28.1-0.20240825183126-07216d3051aa h1:VAGopJUSKAXwdlyBR4pGXXPRIB/zknO7f59QoLfyRZk=
 tinygo.org/x/drivers v0.28.1-0.20240825183126-07216d3051aa/go.mod h1:q/mU8G/wz821p8xXqbkBACOlmZFDHXd//DnYnCW+dDQ=
 tinygo.org/x/tinydraw v0.4.0 h1:U9V0mHz8/jPShKjlh199vCfq1ARFyUOD1b+FfqIwV8c=
 tinygo.org/x/tinydraw v0.4.0/go.mod h1:WCV/EMljTv8w04iAxjv+fRD6/4ffx0afATYeJlN90Yo=
-tinygo.org/x/tinyfont v0.4.0 h1:XexPKEKiHInf6p4CMCJwsIheVPY0T46HUs6ictYyZfE=
-tinygo.org/x/tinyfont v0.4.0/go.mod h1:7nVj3j3geqBoPDzpFukAhF1C8AP9YocMsZy0HSAcGCA=
-tinygo.org/x/tinyfont v0.4.1-0.20241019115309-be919cfc7fd0 h1:aIwyRBwsSv6wDenbIcUZ2cqOGz7vDIK2Bz2X3W53qms=
-tinygo.org/x/tinyfont v0.4.1-0.20241019115309-be919cfc7fd0/go.mod h1:7nVj3j3geqBoPDzpFukAhF1C8AP9YocMsZy0HSAcGCA=
 tinygo.org/x/tinyfont v0.4.1-0.20241022105211-0b3702cd6364 h1:dYjlzfKPssWsVKfGUp1rPmsvErVc/cE5WB2OviNbsJ0=
 tinygo.org/x/tinyfont v0.4.1-0.20241022105211-0b3702cd6364/go.mod h1:7nVj3j3geqBoPDzpFukAhF1C8AP9YocMsZy0HSAcGCA=
