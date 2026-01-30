@@ -67,7 +67,7 @@ const (
 var (
 	displayWhite = color.RGBA{R: 0xFF, G: 0xFF, B: 0xFF, A: 0xFF}
 	displayBlack = color.RGBA{R: 0x00, G: 0x00, B: 0x00, A: 0xFF}
-	display      ssd1306.Device
+	display      *ssd1306.Device
 )
 
 // Not番号から音名のマッピング
@@ -693,12 +693,12 @@ func redraw(state State) {
 	if state.DrumPatternIndex >= 0 && state.DrumPatternIndex < len(drumPatterns) {
 		patternName = drumPatterns[state.DrumPatternIndex].Name
 	}
-	tinyfont.WriteLine(&display, &shnm.Shnmk12, 5, 12, patternName, displayWhite)
+	tinyfont.WriteLine(display, &shnm.Shnmk12, 5, 12, patternName, displayWhite)
 
 	if state.DrumPlaying {
-		tinyfont.WriteLine(&display, &shnm.Shnmk12, 5, 24, "State: Playing", displayWhite)
+		tinyfont.WriteLine(display, &shnm.Shnmk12, 5, 24, "State: Playing", displayWhite)
 	} else {
-		tinyfont.WriteLine(&display, &shnm.Shnmk12, 5, 24, "State: Pausing", displayWhite)
+		tinyfont.WriteLine(display, &shnm.Shnmk12, 5, 24, "State: Pausing", displayWhite)
 	}
 
 	// キーボード表示
@@ -708,63 +708,63 @@ func redraw(state State) {
 	fontKeyNameY := (sz+2)*(3+0) + sz + 8
 
 	// 1行目のキー
-	Rectangle(state.Keys[0], &display, x+(sz+2)*0, (sz+2)*(3+0), sz, sz, displayWhite)
-	Rectangle(state.Keys[3], &display, x+(sz+2)*1, (sz+2)*(3+0), sz, sz, displayWhite)
-	Rectangle(state.Keys[6], &display, x+(sz+2)*2, (sz+2)*(3+0), sz, sz, displayWhite)
-	Rectangle(state.Keys[9], &display, x+(sz+2)*3, (sz+2)*(3+0), sz, sz, displayWhite)
+	Rectangle(state.Keys[0], display, x+(sz+2)*0, (sz+2)*(3+0), sz, sz, displayWhite)
+	Rectangle(state.Keys[3], display, x+(sz+2)*1, (sz+2)*(3+0), sz, sz, displayWhite)
+	Rectangle(state.Keys[6], display, x+(sz+2)*2, (sz+2)*(3+0), sz, sz, displayWhite)
+	Rectangle(state.Keys[9], display, x+(sz+2)*3, (sz+2)*(3+0), sz, sz, displayWhite)
 
 	// 音名表示
 	if state.ActiveNotes[0] != "" {
-		tinyfont.WriteLine(&display, &shnm.Shnmk12, fontKeyNameX, fontKeyNameY, state.ActiveNotes[0], displayWhite)
+		tinyfont.WriteLine(display, &shnm.Shnmk12, fontKeyNameX, fontKeyNameY, state.ActiveNotes[0], displayWhite)
 	}
 	if state.ActiveNotes[3] != "" {
-		tinyfont.WriteLine(&display, &shnm.Shnmk12, fontKeyNameX, fontKeyNameY, state.ActiveNotes[3], displayWhite)
+		tinyfont.WriteLine(display, &shnm.Shnmk12, fontKeyNameX, fontKeyNameY, state.ActiveNotes[3], displayWhite)
 	}
 	if state.ActiveNotes[6] != "" {
-		tinyfont.WriteLine(&display, &shnm.Shnmk12, fontKeyNameX, fontKeyNameY, state.ActiveNotes[6], displayWhite)
+		tinyfont.WriteLine(display, &shnm.Shnmk12, fontKeyNameX, fontKeyNameY, state.ActiveNotes[6], displayWhite)
 	}
 	if state.ActiveNotes[9] != "" {
-		tinyfont.WriteLine(&display, &shnm.Shnmk12, fontKeyNameX, fontKeyNameY, state.ActiveNotes[9], displayWhite)
+		tinyfont.WriteLine(display, &shnm.Shnmk12, fontKeyNameX, fontKeyNameY, state.ActiveNotes[9], displayWhite)
 	}
 
 	// 2行目のキー
-	Rectangle(state.Keys[1], &display, x+(sz+2)*0, (sz+2)*(3+1), sz, sz, displayWhite)
-	Rectangle(state.Keys[4], &display, x+(sz+2)*1, (sz+2)*(3+1), sz, sz, displayWhite)
-	Rectangle(state.Keys[7], &display, x+(sz+2)*2, (sz+2)*(3+1), sz, sz, displayWhite)
-	Rectangle(state.Keys[10], &display, x+(sz+2)*3, (sz+2)*(3+1), sz, sz, displayWhite)
+	Rectangle(state.Keys[1], display, x+(sz+2)*0, (sz+2)*(3+1), sz, sz, displayWhite)
+	Rectangle(state.Keys[4], display, x+(sz+2)*1, (sz+2)*(3+1), sz, sz, displayWhite)
+	Rectangle(state.Keys[7], display, x+(sz+2)*2, (sz+2)*(3+1), sz, sz, displayWhite)
+	Rectangle(state.Keys[10], display, x+(sz+2)*3, (sz+2)*(3+1), sz, sz, displayWhite)
 
 	// 音名表示
 	if state.ActiveNotes[1] != "" {
-		tinyfont.WriteLine(&display, &shnm.Shnmk12, fontKeyNameX, fontKeyNameY, state.ActiveNotes[1], displayWhite)
+		tinyfont.WriteLine(display, &shnm.Shnmk12, fontKeyNameX, fontKeyNameY, state.ActiveNotes[1], displayWhite)
 	}
 	if state.ActiveNotes[4] != "" {
-		tinyfont.WriteLine(&display, &shnm.Shnmk12, fontKeyNameX, fontKeyNameY, state.ActiveNotes[4], displayWhite)
+		tinyfont.WriteLine(display, &shnm.Shnmk12, fontKeyNameX, fontKeyNameY, state.ActiveNotes[4], displayWhite)
 	}
 	if state.ActiveNotes[7] != "" {
-		tinyfont.WriteLine(&display, &shnm.Shnmk12, fontKeyNameX, fontKeyNameY, state.ActiveNotes[7], displayWhite)
+		tinyfont.WriteLine(display, &shnm.Shnmk12, fontKeyNameX, fontKeyNameY, state.ActiveNotes[7], displayWhite)
 	}
 	if state.ActiveNotes[10] != "" {
-		tinyfont.WriteLine(&display, &shnm.Shnmk12, fontKeyNameX, fontKeyNameY, state.ActiveNotes[10], displayWhite)
+		tinyfont.WriteLine(display, &shnm.Shnmk12, fontKeyNameX, fontKeyNameY, state.ActiveNotes[10], displayWhite)
 	}
 
 	// 3行目のキー
-	Rectangle(state.Keys[2], &display, x+(sz+2)*0, (sz+2)*(3+2), sz, sz, displayWhite)
-	Rectangle(state.Keys[5], &display, x+(sz+2)*1, (sz+2)*(3+2), sz, sz, displayWhite)
-	Rectangle(state.Keys[8], &display, x+(sz+2)*2, (sz+2)*(3+2), sz, sz, displayWhite)
-	Rectangle(state.Keys[11], &display, x+(sz+2)*3, (sz+2)*(3+2), sz, sz, displayWhite)
+	Rectangle(state.Keys[2], display, x+(sz+2)*0, (sz+2)*(3+2), sz, sz, displayWhite)
+	Rectangle(state.Keys[5], display, x+(sz+2)*1, (sz+2)*(3+2), sz, sz, displayWhite)
+	Rectangle(state.Keys[8], display, x+(sz+2)*2, (sz+2)*(3+2), sz, sz, displayWhite)
+	Rectangle(state.Keys[11], display, x+(sz+2)*3, (sz+2)*(3+2), sz, sz, displayWhite)
 
 	// 音名表示
 	if state.ActiveNotes[2] != "" {
-		tinyfont.WriteLine(&display, &shnm.Shnmk12, fontKeyNameX, fontKeyNameY, state.ActiveNotes[2], displayWhite)
+		tinyfont.WriteLine(display, &shnm.Shnmk12, fontKeyNameX, fontKeyNameY, state.ActiveNotes[2], displayWhite)
 	}
 	if state.ActiveNotes[5] != "" {
-		tinyfont.WriteLine(&display, &shnm.Shnmk12, fontKeyNameX, fontKeyNameY, state.ActiveNotes[5], displayWhite)
+		tinyfont.WriteLine(display, &shnm.Shnmk12, fontKeyNameX, fontKeyNameY, state.ActiveNotes[5], displayWhite)
 	}
 	if state.ActiveNotes[8] != "" {
-		tinyfont.WriteLine(&display, &shnm.Shnmk12, fontKeyNameX, fontKeyNameY, state.ActiveNotes[8], displayWhite)
+		tinyfont.WriteLine(display, &shnm.Shnmk12, fontKeyNameX, fontKeyNameY, state.ActiveNotes[8], displayWhite)
 	}
 	if state.ActiveNotes[11] != "" {
-		tinyfont.WriteLine(&display, &shnm.Shnmk12, fontKeyNameX, fontKeyNameY, state.ActiveNotes[11], displayWhite)
+		tinyfont.WriteLine(display, &shnm.Shnmk12, fontKeyNameX, fontKeyNameY, state.ActiveNotes[11], displayWhite)
 	}
 
 	display.Display()

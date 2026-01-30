@@ -29,7 +29,7 @@ func main() {
 
 	white := color.RGBA{R: 0xFF, G: 0xFF, B: 0xFF, A: 0xFF}
 
-	tinyfont.WriteLine(&display, &freemono.Bold9pt7b, 5, 10, "hello", white)
-	tinyfont.WriteLine(&display, &gophers.Regular32pt, 5, 50, "ABCEF", white)
+	tinyfont.WriteLine(display, &freemono.Bold9pt7b, 5, 10, "hello", white)
+	tinyfont.WriteLine(display, &gophers.Regular32pt, 5, 50, "ABCEF", white)
 	display.Display()
 }

@@ -180,7 +180,7 @@ func main() {
 	display.SetRotation(drivers.Rotation180)
 
 	// ディスプレイ状態管理の初期化 - ポインタとして渡す
-	displayState := NewDisplayState(&display)
+	displayState := NewDisplayState(display)
 
 	// キーマトリックスピン設定
 	colPins := []machine.Pin{
