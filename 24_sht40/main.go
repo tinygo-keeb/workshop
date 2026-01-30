@@ -45,8 +45,8 @@ func main() {
 			h := fmt.Sprintf("湿度 %.2f ％", float32(humidity)/1000)
 
 			display.ClearBuffer()
-			tinyfont.WriteLine(&display, &shnm.Shnmk12, 5, 10, t, white)
-			tinyfont.WriteLine(&display, &shnm.Shnmk12, 5, 30, h, white)
+			tinyfont.WriteLine(display, &shnm.Shnmk12, 5, 10, t, white)
+			tinyfont.WriteLine(display, &shnm.Shnmk12, 5, 30, h, white)
 			display.Display()
 			time.Sleep(1 * time.Second)
 		}

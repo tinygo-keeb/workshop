@@ -270,41 +270,41 @@ type State struct {
 	Keys         [12]bool
 }
 
-func redraw(d ssd1306.Device, state State) {
+func redraw(d *ssd1306.Device, state State) {
 	d.ClearBuffer()
 
 	sz := int16(8)
 
 	// joystick
-	Rectangle(state.Up, &d, (sz+2)*1, (sz+2)*0, sz, sz, white)
-	Rectangle(state.Left, &d, (sz+2)*0, (sz+2)*1, sz, sz, white)
-	Rectangle(state.Right, &d, (sz+2)*2, (sz+2)*1, sz, sz, white)
-	Rectangle(state.Down, &d, (sz+2)*1, (sz+2)*2, sz, sz, white)
-	Rectangle(state.Center, &d, (sz+2)*1, (sz+2)*1, sz, sz, white)
+	Rectangle(state.Up, d, (sz+2)*1, (sz+2)*0, sz, sz, white)
+	Rectangle(state.Left, d, (sz+2)*0, (sz+2)*1, sz, sz, white)
+	Rectangle(state.Right, d, (sz+2)*2, (sz+2)*1, sz, sz, white)
+	Rectangle(state.Down, d, (sz+2)*1, (sz+2)*2, sz, sz, white)
+	Rectangle(state.Center, d, (sz+2)*1, (sz+2)*1, sz, sz, white)
 
 	// rotary encoder
 	x := 128 - sz*3
-	Triangle(state.RotaryLeft, &d, x-sz, sz*2+sz/2, x-sz, sz*2-sz/2, x-2*sz, sz*2, white)
-	Circle(state.RotaryButton, &d, x, sz*2, sz-2, white)
-	Triangle(state.RotaryRight, &d, x+sz, sz*2+sz/2, x+sz, sz*2-sz/2, x+2*sz, sz*2, white)
+	Triangle(state.RotaryLeft, d, x-sz, sz*2+sz/2, x-sz, sz*2-sz/2, x-2*sz, sz*2, white)
+	Circle(state.RotaryButton, d, x, sz*2, sz-2, white)
+	Triangle(state.RotaryRight, d, x+sz, sz*2+sz/2, x+sz, sz*2-sz/2, x+2*sz, sz*2, white)
 
 	// Keys
 	x = 128/2 - (sz+2)*2
-	Rectangle(state.Keys[0], &d, x+(sz+2)*0, (sz+2)*(3+0), sz, sz, white)
-	Rectangle(state.Keys[1], &d, x+(sz+2)*0, (sz+2)*(3+1), sz, sz, white)
-	Rectangle(state.Keys[2], &d, x+(sz+2)*0, (sz+2)*(3+2), sz, sz, white)
+	Rectangle(state.Keys[0], d, x+(sz+2)*0, (sz+2)*(3+0), sz, sz, white)
+	Rectangle(state.Keys[1], d, x+(sz+2)*0, (sz+2)*(3+1), sz, sz, white)
+	Rectangle(state.Keys[2], d, x+(sz+2)*0, (sz+2)*(3+2), sz, sz, white)
 
-	Rectangle(state.Keys[3], &d, x+(sz+2)*1, (sz+2)*(3+0), sz, sz, white)
-	Rectangle(state.Keys[4], &d, x+(sz+2)*1, (sz+2)*(3+1), sz, sz, white)
-	Rectangle(state.Keys[5], &d, x+(sz+2)*1, (sz+2)*(3+2), sz, sz, white)
+	Rectangle(state.Keys[3], d, x+(sz+2)*1, (sz+2)*(3+0), sz, sz, white)
+	Rectangle(state.Keys[4], d, x+(sz+2)*1, (sz+2)*(3+1), sz, sz, white)
+	Rectangle(state.Keys[5], d, x+(sz+2)*1, (sz+2)*(3+2), sz, sz, white)
 
-	Rectangle(state.Keys[6], &d, x+(sz+2)*2, (sz+2)*(3+0), sz, sz, white)
-	Rectangle(state.Keys[7], &d, x+(sz+2)*2, (sz+2)*(3+1), sz, sz, white)
-	Rectangle(state.Keys[8], &d, x+(sz+2)*2, (sz+2)*(3+2), sz, sz, white)
+	Rectangle(state.Keys[6], d, x+(sz+2)*2, (sz+2)*(3+0), sz, sz, white)
+	Rectangle(state.Keys[7], d, x+(sz+2)*2, (sz+2)*(3+1), sz, sz, white)
+	Rectangle(state.Keys[8], d, x+(sz+2)*2, (sz+2)*(3+2), sz, sz, white)
 
-	Rectangle(state.Keys[9], &d, x+(sz+2)*3, (sz+2)*(3+0), sz, sz, white)
-	Rectangle(state.Keys[10], &d, x+(sz+2)*3, (sz+2)*(3+1), sz, sz, white)
-	Rectangle(state.Keys[11], &d, x+(sz+2)*3, (sz+2)*(3+2), sz, sz, white)
+	Rectangle(state.Keys[9], d, x+(sz+2)*3, (sz+2)*(3+0), sz, sz, white)
+	Rectangle(state.Keys[10], d, x+(sz+2)*3, (sz+2)*(3+1), sz, sz, white)
+	Rectangle(state.Keys[11], d, x+(sz+2)*3, (sz+2)*(3+2), sz, sz, white)
 
 	d.Display()
 }

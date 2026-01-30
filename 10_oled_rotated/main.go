@@ -28,7 +28,7 @@ func main() {
 	display.ClearDisplay()
 	time.Sleep(50 * time.Millisecond)
 
-	rotDisplay := RotatedDisplay{&display}
+	rotDisplay := RotatedDisplay{display}
 
 	white := color.RGBA{R: 0xFF, G: 0xFF, B: 0xFF, A: 0xFF}
 

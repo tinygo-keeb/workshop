@@ -34,7 +34,7 @@ func main() {
 	for {
 		display.ClearBuffer()
 		data[0], data[1], data[2], data[3], data[4] = data[1], data[2], data[3], data[4], data[0]
-		tinyfont.WriteLine(&display, &gophers.Regular32pt, 5, 45, string(data), white)
+		tinyfont.WriteLine(display, &gophers.Regular32pt, 5, 45, string(data), white)
 		display.Display()
 		time.Sleep(200 * time.Millisecond)
 	}

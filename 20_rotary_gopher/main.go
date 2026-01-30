@@ -40,7 +40,7 @@ func main() {
 	time.Sleep(50 * time.Millisecond)
 
 	white := color.RGBA{R: 0xFF, G: 0xFF, B: 0xFF, A: 0xFF}
-	tinyfont.WriteLine(&display, &gophers.Regular32pt, 0, 50, alphabet, white)
+	tinyfont.WriteLine(display, &gophers.Regular32pt, 0, 50, alphabet, white)
 	display.Display()
 
 	oldValue := int16(0)
@@ -51,9 +51,9 @@ func main() {
 
 			println("value: ", newValue)
 
-			tinyfont.WriteLine(&display, &gophers.Regular32pt, oldValue-alphabetWidth, 50, alphabet, white)
-			tinyfont.WriteLine(&display, &gophers.Regular32pt, oldValue, 50, alphabet, white)
-			tinyfont.WriteLine(&display, &gophers.Regular32pt, oldValue+alphabetWidth, 50, alphabet, white)
+			tinyfont.WriteLine(display, &gophers.Regular32pt, oldValue-alphabetWidth, 50, alphabet, white)
+			tinyfont.WriteLine(display, &gophers.Regular32pt, oldValue, 50, alphabet, white)
+			tinyfont.WriteLine(display, &gophers.Regular32pt, oldValue+alphabetWidth, 50, alphabet, white)
 			display.Display()
 		}
 		time.Sleep(10 * time.Millisecond)

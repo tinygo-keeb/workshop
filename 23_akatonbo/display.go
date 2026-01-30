@@ -5,6 +5,7 @@ import (
 	"image/color"
 	"machine"
 	"time"
+
 	"tinygo.org/x/drivers"
 	"tinygo.org/x/drivers/ssd1306"
 	"tinygo.org/x/tinyfont"
@@ -53,7 +54,7 @@ func InitDisplay() *Display {
 	time.Sleep(50 * time.Millisecond)
 
 	return &Display{
-		device:      &device,
+		device:      device,
 		currentLine: 0,
 		lines:       [MAX_SCROLL_LINES]string{}, // 空文字列で初期化
 	}
