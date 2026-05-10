@@ -1,5 +1,10 @@
 # Build guide
 
+Here is information about soldering and assembly.
+Here is the QR code for this page.
+
+![](./images/qr_buildguide_EN.png)
+
 Japanese version is below.
 
 * [build guide (日本語)](./buildguide.md)
@@ -23,7 +28,7 @@ Japanese version is below.
 | 13 | RP2040 Zero               | 1    |
 | 14 | Rotary encoder            | 1    |
 | 15 | RGB LED                   | 12   | SK6812MINI-E
-| 16 | ruber foot                | 4    |
+| 16 | Rubber feet               | 4    |
 | 17 | USB-C cable               | 1    |
 | 18 | Flathead screw 2.1x10     | 4    | 2x10 also works
 | 19 | Case                      | 1    | [stl](https://github.com/sago35/keyboards/tree/main/zero-kb02/stl)
@@ -181,13 +186,49 @@ This is a knob for the joystick.
 
 # Soldering/assembly
 
+**External reference:** [Soldering short video (JBC)](https://www.youtube.com/shorts/nPz37an_7ng)
+
 The following describes soldering and assembly.
 For each item, some work on the front side and some work on the back side.
-The badge below indicates the orientation at the start of work, so please refer to it. 
+The badge below indicates the orientation at the start of work, so please refer to it.
 
-* ![Work surface - front](https://img.shields.io/badge/Work_surface-front-2ea44f)
-* ![Work surface - back](https://img.shields.io/badge/Work_surface-back-a42e4f)
+## ![Work surface - front](https://img.shields.io/badge/Work_surface-front-2ea44f)
 
+When complete, the front side will look like this:
+
+![](./images/board_front.jpg)
+
+## ![Work surface - back](https://img.shields.io/badge/Work_surface-back-a42e4f)
+
+When complete, the back side will look like this:
+
+![](./images/board_back.jpg)
+
+## Disassembly
+
+First, disassemble the distributed kit.
+Please follow the steps below to disassemble.
+Be sure to check the work surface as you proceed.
+
+1. Remove the box
+2. Remove the key switches
+3. Remove the 4 screws on the back
+4. As you disassemble, mark the front side
+
+From now on, front and back are very important, so please be aware of them while looking at the marks.
+
+![](./images/partsx1.jpg)
+
+![](./images/partsx2.jpg)
+
+![](./images/partsx3.jpg)
+
+![](./images/partsx4.jpg)
+
+Note: The following case and parts need to be returned at the end.
+Please handle them carefully so as not to lose them.
+
+![](./images/partsx5.jpg)
 
 ## Assembling the work bench
 
@@ -199,7 +240,26 @@ If you have the person next to you hold the bottom plate, assembly will go more 
 Screw the `solder supports` to the bottom part of the case. Perform the action on a flat and stable surface like a table. This is the `workbench mode`.
 
 
-## ![Work surface - back](https://img.shields.io/badge/Work_surface-back-a42e4f) insert the diodes x 12
+## Operation verification method
+
+You can verify operation by writing the following.
+When you press a key, the LED and LCD display will change, allowing you to check soldering, etc.
+
+* [./80_checker](./80_checker)
+
+![](./images/checker.jpg)
+
+To prevent rework, please verify at the following stages:
+
+* After soldering the switch sockets
+    * Verify all 12 key presses
+* After soldering the rotary encoder
+    * Verify joystick up/down/left/right and press
+    * Verify rotary encoder left/right rotation and press
+* After soldering the microcontroller socket
+    * Write 80_checker to your microcontroller for final verification
+
+## ![Work surface - back](https://img.shields.io/badge/Work_surface-back-a42e4f) Diodes x 12
 
 Use the `diode bender` to bend the diodes and insert them into the back of PCB.
 
@@ -229,6 +289,7 @@ Once all soldering is done, turn it over and cut the legs with pliers or similar
 
 ## ![Work surface - front](https://img.shields.io/badge/Work_surface-front-2ea44f) Resistor x 2
 
+Use needle-nose pliers or similar to bend the legs at the very edge.
 Solder one side.
 Resistors have no orientation.
 If the position is significantly off, heat it again to melt the solder and adjust the position.
@@ -252,6 +313,7 @@ This will allow you to achieve a vertical alignment.
 ![](./images/bg03.jpg)
 
 Place the RP2040 Zero and solder only one pin.
+Note that the side with the USB socket and white button should be facing up (front side), so insert the pins from the back side.
 Once soldered, check the position/orientation, and melt the solder to adjust it if necessary.
 Make sure it is inserted firmly and deeply.
 
@@ -264,7 +326,9 @@ Once all the pins have been soldered, remove them from the socket.
 
 ## ![Work surface - back](https://img.shields.io/badge/Work_surface-back-a42e4f) RGB LED (SK6812MINI-E)
 
-The correct orientation of the LEDs is to match the notch on one of its legs to the corner of the solkscreen.
+**Note: For workshop participants, the RGB LEDs are pre-soldered. You can skip this section.**
+
+The correct orientation of the LEDs is to match the notch on one of its legs to the corner of the silkscreen.
 
 ![](./images/bg10_detail.jpg)
 
@@ -275,7 +339,7 @@ Place the socket along the silk.
 
 ![](./images/bg11.jpg)
 
-The sockets circled in red in the photo below are in the opposite direction.
+<span style="color:red">**⚠ CAUTION: The sockets circled in red in the photo below are in the WRONG direction (opposite to the silkscreen). The correct orientation is to ALIGN with the silkscreen marking.**</span>
 
 ![](./images/key_socket_miss.jpg)
 
@@ -308,8 +372,6 @@ Solder another pin.
 ## ![Work surface - back](https://img.shields.io/badge/Work_surface-back-a42e4f) Joystick
 
 Turn it over and solder all the parts.
-You can omit soldering the four points indicated by the arrows (you can also solder them).
- 
 
 ![](./images/bg17.jpg)
 
@@ -355,6 +417,8 @@ Check from the back to make sure it is inserted properly.
 
 ![](./images/bg23.jpg)
 
+*The characters in the image indicate "this is the back side".*
+
 Just like the Grove connector, solder only one pin.
 After soldering, check the position/orientation, and melt the solder to adjust it if necessary.
 
@@ -384,11 +448,22 @@ Check that each pin is properly inserted, and melt the solder and adjust the pos
 Solder the remaining pins.
 
 
-## ![Work surface - front](https://img.shields.io/badge/Work_surface-front-2ea44f)  LCD display
+## ![Work surface - front](https://img.shields.io/badge/Work_surface-front-2ea44f) LCD display
 
-Lightly insert the LCD display into the board (don't insert it all the way, just insert it a little).
+First, place the height adjustment parts x 2.
+These parts are for height adjustment and will be collected after soldering.
+Note: These height adjustment parts do not fit into the LCD holes.
+
+![](./images/oled-support-01.jpg)
+
+Lightly insert the LCD display into the board.
+It should rest on the 3D printed height adjustment parts.
 
 ![](./images/bg28.jpg)
+
+When viewed from the side, it looks like this:
+
+![](./images/oled-support-02.jpg)
 
 Take it off the workbench and remove the protective film.
 The protective film is not removed in the photo, but please remove it at this point.
@@ -405,8 +480,11 @@ Check that each pin is inserted properly, and melt the solder if necessary to ad
 ![](./images/bg30.jpg)
 
 Complete when all 4 pins are soldered.
+Finally, remove the 3D printed height adjustment parts.
 
 # Assembly from here
+
+Before assembly, please verify operation according to the `Operation verification method` section above.
 
 ## Key switch
 
@@ -455,7 +533,8 @@ Download the following firmware (`*.uf2`) and check.
 Turn the rotary encoder and check that the RGB LED lights up and the volume changes.
 Press other keys as appropriate and check that the LED lights up.
 
-* https://github.com/sago35/keyboards/releases/download/0.3.0/zero-kb02.uf2
+* https://github.com/sago35/keyboards/releases
+    * zero-kb02.uf2
 
 You can also check with Vial's matrix tester.
 You can also check key bindings from Vial.
