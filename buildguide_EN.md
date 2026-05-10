@@ -416,6 +416,7 @@ Pay attention to the direction you insert it (the rotating part should be on the
 Check from the back to make sure it is inserted properly.
 
 ![](./images/bg23.jpg)
+
 *The characters in the image indicate "this is the back side".*
 
 Just like the Grove connector, solder only one pin.
