@@ -363,7 +363,7 @@ magenta = color.RGBA{R: 0xFF, G: 0x00, B: 0xFF, A: 0x00}
 ## L チカ (その2)
 
 キーを光らせてみましょう。
-基板には WS2812B 互換の SK2812MINI-E が 12 個搭載されています。
+基板には WS2812B 互換の SK6812MINI-E が 12 個搭載されています。
 以下の位置／順番で搭載されています。
 
 ```
@@ -441,6 +441,10 @@ $ tinygo flash --target waveshare-rp2040-zero --size short ./03_usbcdc-serial/
 
 標準入力は以下のようなソース ([./04_usbcdc-echo/](./04_usbcdc-echo/)) で扱うことができます。
 改行は `Enter` / `Return` キーを押した後 `Ctrl-j` を押す必要があります。
+
+```shell
+$ tinygo flash --target waveshare-rp2040-zero --size short ./04_usbcdc-echo/
+```
 
 ```go
 // ./04_usbcdc-echo/main.go
