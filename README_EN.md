@@ -570,11 +570,11 @@ display.Configure(ssd1306.Config{
 
 You can write and check operation with the following command:
 
-```go
+```shell
 $ tinygo flash --target waveshare-rp2040-zero --size short ./07_oled/
 ```
 
-※As of 2024/08/04, OLED drawing sometimes stops (currently investigating)
+*Note: As of 2024/08/04, OLED drawing sometimes stops (currently investigating)*
 
 ### Drawing Shapes
 
