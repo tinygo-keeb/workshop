@@ -504,7 +504,7 @@ Getting the pressed state of the rotary encoder will be discussed in the next se
 ## Getting the Pressed State of the Rotary Encoder
 
 When the rotary encoder is pressed, it connects to GND and goes Low.
-If you pull it up, it will be High when not pressed.
+With pull-up enabled, it will be High when not pressed.
 
 The basic code is as follows:
 
@@ -524,7 +524,6 @@ $ tinygo monitor
 ```
 
 When you press the rotary encoder, `pressed` will be output to the terminal running `tinygo monitor`.
-
 
 ## Analog Joystick
 
