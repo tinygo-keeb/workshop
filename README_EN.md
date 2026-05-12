@@ -461,7 +461,7 @@ func main() {
 
 ## Rotary Encoder
 
-You can use encoders/quadrature interrupts from tinygo-org/drivers.
+You can use `encoders/quadrature-interrupt` from tinygo-org/drivers.
 
 * https://github.com/tinygo-org/drivers/blob/release/examples/encoders/quadrature-interrupt/main.go
 
@@ -478,9 +478,9 @@ enc.Configure(encoders.QuadratureConfig{
 })
 ```
 
-You can check and play with the example 05_rotary.
+You can write and check operation with the following commands.
 When you turn the rotary encoder, the value display will update.
-It might be interesting to link it with the LEDs as an exercise.
+Try linking it with the LEDs as an exercise.
 
 ```
 $ tinygo flash --target waveshare-rp2040-zero --size short ./05_rotary/
