@@ -126,14 +126,13 @@ The official documentation is available here:
 
 * https://tinygo.org/docs/guides/ide-integration/
 
-For VSCode, it's good to install the TinyGo extension.
+For VS Code, we recommend installing the TinyGo extension.
 For Vim (+ vim-lsp), try `github.com/sago35/tinygo.vim`.
 
 For information in Japanese, see:
 
 * [How to integrate TinyGo + 'VSCode or Vim (or other LSP-compatible editors)' with gopls](https://qiita.com/sago35/items/c30cbce4a0a3e12d899c)
 * [Settings for TinyGo + Vim with gopls](https://qiita.com/sago35/items/f0b058ed5c32b6446834)
-
 
 # Development Target
 
