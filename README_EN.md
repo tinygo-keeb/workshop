@@ -142,14 +142,14 @@ If you use Bash, Zsh, or Clink, you can install command-line completion for Tiny
 
 # Development Target
 
-TinyGo Keeb Tour will use a home-made keyboard/macro pad called zero-kb02.
-Microcontroller is RP2040 (Cortex M0+) and microcontroller board is [Waveshare RP2040-Zero](https://www.waveshare.com/rp2040-zero.htm).
+The TinyGo Keeb Tour uses a custom keyboard/macro pad called zero-kb02.
+The microcontroller is an RP2040 (Cortex M0+), and the board is [Waveshare RP2040-Zero](https://www.waveshare.com/rp2040-zero.htm).
 
-! [](. /images/zero-kb02.jpg)
+![](./images/zero-kb02.jpg)
 
-Main features include.
+Main features:
 
-* Waveshare RP2040-Zero.
+* Waveshare RP2040-Zero
     * https://www.waveshare.com/rp2040-zero.htm
     * https://www.waveshare.com/wiki/RP2040-Zero
 * 12 keys with RGB LEDs
@@ -161,9 +161,8 @@ Main features include.
 
 Schematics, firmware, pinouts, etc. can be found at:
 
-
 * https://github.com/sago35/keyboards
-    * Schematics : [kicanvas](https://kicanvas.org/?github=https%3A%2F%2Fgithub.com%2Fsago35%2Fkeyboards%2Ftree%2Fmain%2Fzero-kb02%2Fzero-kb02)
+    * Schematics: [kicanvas](https://kicanvas.org/?github=https%3A%2F%2Fgithub.com%2Fsago35%2Fkeyboards%2Ftree%2Fmain%2Fzero-kb02%2Fzero-kb02)
 
 ## Assembly
 
