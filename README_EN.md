@@ -725,7 +725,7 @@ $ tinygo flash --target waveshare-rp2040-zero --size short --monitor ./12_matrix
 
 By organizing the loops and making the number of keys variable, you can move closer to a keyboard firmware.
 
-※ For those who want to learn more about matrix wiring, please see:
+*Note: For those who want to learn more about matrix wiring, please see:*
 https://blog.ikejima.org/make/keyboard/2019/12/14/keyboard-circuit.html
 
 ## USB HID Keyboard Using Pin Input
