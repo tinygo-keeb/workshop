@@ -105,15 +105,14 @@ For more details, please refer to:
 
 If you want to use the latest version under development, download Artifact > release-double-zipped built by GitHub Actions.
 
-* windows
+* Windows
     * https://github.com/tinygo-org/tinygo/actions/workflows/windows.yml?query=branch%3Adev
-* linux
+* Linux
     * https://github.com/tinygo-org/tinygo/actions/workflows/linux.yml?query=branch%3Adev
-* macos
+* macOS
     * https://github.com/tinygo-org/tinygo/actions/workflows/build-macos.yml?query=branch%3Adev
 
-
-For more information see:
+For more information, see:
 
 * [TinyGo の開発版のビルド方法と、ビルドせずに開発版バイナリを手に入れる方法](https://qiita.com/sago35/items/33e63ca5073f572ad69c#pr-%E5%86%85%E3%81%A7%E4%BD%9C%E6%88%90%E3%81%95%E3%82%8C%E3%81%9F%E3%83%90%E3%82%A4%E3%83%8A%E3%83%AA%E3%82%92%E4%BD%BF%E3%81%86)
 * [Building from source TinyGo](https://tinygo.org/docs/guides/build/)
