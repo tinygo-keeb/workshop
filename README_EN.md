@@ -66,15 +66,15 @@ hello world!
 
 ### Windows + WSL2
 
-You can use the linux version of TinyGo for Ubuntu on WSL2.
+You can use the Linux version of TinyGo on Ubuntu in WSL2.
 However, WSL2 cannot directly access USB devices connected to the Windows host.
-Even when using WSL2, it is basically better to install the Windows version of TinyGo on the Windows path.
-In this case, it is necessary to install the Windows version of Go as well.
+Even when using WSL2, it's generally better to install the Windows version of TinyGo in your Windows PATH.
+In this case, you'll also need to install the Windows version of Go.
 
-If you really want to communicate with TinyGo on WSL2, you can use usbipd as follows.
-However, it is not very comfortable because you need to attach usbipd every time you do tinygo flash.
+If you insist on using TinyGo from WSL2, you can use usbipd as shown below.
+However, it's inconvenient because you need to attach usbipd every time you run `tinygo flash`.
 
-* [Run tinygo monitor on raspberry pi pico with tinygo installed on WSL2 (japanese)](https://qiita.com/kn12abc/items/d6bfc172cf08d9be6e1a)
+* [Run tinygo monitor on raspberry pi pico with tinygo installed on WSL2 (Japanese)](https://qiita.com/kn12abc/items/d6bfc172cf08d9be6e1a)
 
 ### Linux setup
 
