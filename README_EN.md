@@ -3,15 +3,14 @@
 ![](./images/zero-kb02.jpg)
 
 This page is for the TinyGo Keeb Tour that started on 2024/08/04.
-If you have any questions, please create in an issue in this repository or contact [twitter:sago35tk](https://x.com/sago35tk).
+If you have any questions, please create an issue in this repository or contact [twitter:sago35tk](https://x.com/sago35tk).
 
-For hardware assembly, please refer to the following.
+For hardware assembly, please refer to the build guide:
 
+* [Build Guide (English)](./buildguide_EN.md)
+* [ビルドガイド (日本語)](./buildguide.md)
 
-* [ビルドガイド](./buildguide.md)
-* [build guide (english)](./buildguide_EN.md)
-
-To this page QR code is here.  
+QR code for this page:
 
 ![](./images/qr_tinygo_keeb_workshop_top_english.png)
 
