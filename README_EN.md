@@ -342,7 +342,7 @@ for {
 }
 ```
 
-Other color examples are as follows.
+Here are some other color examples.
 You can set any color by specifying RGBA.
 You can (somewhat) reduce the brightness by making the 0xFF values smaller.
 
@@ -354,7 +354,6 @@ yellow  = color.RGBA{R: 0xFF, G: 0xFF, B: 0x00, A: 0x00}
 cyan    = color.RGBA{R: 0x00, G: 0xFF, B: 0xFF, A: 0x00}
 magenta = color.RGBA{R: 0xFF, G: 0x00, B: 0xFF, A: 0x00}
 ```
-
 
 ## LED Blink (2)
 
@@ -403,7 +402,7 @@ You can (somewhat) reduce the brightness by making the 0xFF values smaller.
 ## USB CDC Hello World
 
 Let's also try USB CDC, which is useful for printf debugging and other purposes.
-USB CDC stands for Universal Serial Bus Communications Device Class, and roughly speaking, it's for communication between a computer and a microcontroller throught the USB cable.
+USB CDC stands for Universal Serial Bus Communications Device Class, and simply put, it enables serial communication between a computer and a microcontroller through the USB cable.
 Rather than explaining, it's easier to understand by trying it, so first run the following:
 
 ```shell
