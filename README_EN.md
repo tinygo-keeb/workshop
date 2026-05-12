@@ -19,46 +19,46 @@ QR code for this page:
 ## TinyGo Installation
 
 The following dependencies are required.
-For TinyGo, we have included the URL for v0.35.0, which is the latest version at the time of writting this page, but please use the latest version available.
+For TinyGo, please use the latest version available.
 
 * Git
     * https://git-scm.com/downloads
     * Not required for Go / TinyGo, but necessary for this workshop
 * Go
     * https://go.dev/dl/
-        * installation instructions : https://go.dev/doc/install
+        * Installation instructions: https://go.dev/doc/install
 * TinyGo
     * https://github.com/tinygo-org/tinygo/releases/latest
-        * installation instructions : https://tinygo.org/getting-started/install/
+        * Installation instructions: https://tinygo.org/getting-started/install/
 
-Note that there is a version combination between Go and TinyGo.
-Basically, TinyGo must be used with the latest and most recent version of Go.
+Note that Go and TinyGo versions must be compatible.
+TinyGo typically requires the latest or previous version of Go.
 
 | TinyGo | Compatible Go |
-| ------ | ----------- |
-| 0.35.0 | 1.23 - 1.22 |
+| ------ | ------------- |
+| 0.40.1 | 1.25 - 1.24   |
+| 0.39.0 | 1.25 - 1.24   |
 
-
-You can check if the installation was successful or not at the following
+You can verify your installation with these commands:
 
 ```
 $ tinygo version
-tinygo version 0.35.0 windows/amd64 (using go version go1.23.6 and LLVM version 18.1.2)
+tinygo version 0.40.1 windows/amd64 (using go version go1.25.6 and LLVM version 20.1.1)
 ```
 
 ```
 $ tinygo build -o out.uf2 --target waveshare-rp2040-zero --size short examples/serial
    code    data     bss |   flash     ram
-   7836     108    3152 |    7944    3260
+   9720     108    5208 |    9828    5316
 ```
 
 ```
 $ tinygo flash --target waveshare-rp2040-zero --size short examples/serial
    code    data     bss |   flash     ram
-   7932     108    3168 |    8040    3276
+   9720     108    5208 |    9828    5316
 
 $ tinygo monitor --target waveshare-rp2040-zero
-Connected to COM4. Press Ctrl-C to exit.
+Connected to COM12. Press Ctrl-C to exit.
 hello world!
 hello world!
 hello world!
