@@ -426,7 +426,7 @@ hello world!
 (omitted)
 ```
 
-examples/serial is a source ([./03_usbcdc-serial](./03_usbcdc-serial)) like the following.
+The `examples/serial` source is located at [./03_usbcdc-serial](./03_usbcdc-serial).
 It repeatedly displays `hello world!` and then waits for 1 second.
 Try changing the wait time, display string, or using fmt.Printf() for writing.
 
@@ -434,8 +434,12 @@ Try changing the wait time, display string, or using fmt.Printf() for writing.
 $ tinygo flash --target waveshare-rp2040-zero --size short ./03_usbcdc-serial/
 ```
 
-Standard input can be handled with a code like the following: ([./04_usbcdc-echo/](./04_usbcdc-echo/)).
+Standard input can be handled with code like [./04_usbcdc-echo/](./04_usbcdc-echo/).
 After pressing `Enter`/`Return`, you need to press `Ctrl-j` for a line break.
+
+```shell
+$ tinygo flash --target waveshare-rp2040-zero --size short ./04_usbcdc-echo/
+```
 
 ```go
 // ./04_usbcdc-echo/main.go
@@ -454,8 +458,6 @@ func main() {
         }
 }
 ```
-
-
 
 ## Rotary Encoder
 
