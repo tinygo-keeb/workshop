@@ -295,7 +295,6 @@ The modified JSON file is as follows:
 
 * https://github.com/tinygo-org/tinygo/issues/4519
 
-
 ### How to stop "Disk Not Ejected Properly" notifications from accumulating on macOS
 
 Open a terminal and run the following, then restart:
@@ -312,19 +311,15 @@ $ sudo defaults delete /Library/Preferences/SystemConfiguration/com.apple.DiskAr
 
 See: https://www.reddit.com/r/mac/comments/vsn1t6/how_to_disable_not_ejected_safely_notification_on/
 
-
-
 ### If you absolutely cannot flash to the device
 
-The following possibilities exist:
+This could be due to:
 
 * There's a problem with the USB cable
   * Check if it's recognized with `tinygo ports` or as a drive (try booting into bootloader mode)
 * Writing to external drives is restricted
   * Company computers may restrict writing for security reasons
   * In this case, neither tinygo flash nor copying uf2 files will work
-
-
 
 ## LED Blink
 
