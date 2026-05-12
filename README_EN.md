@@ -798,6 +798,114 @@ Please also refer to the following examples:
 * [./21_midi2](./21_midi2/)
 * https://github.com/conejoninja/midikeeb
 
+## Using a Buzzer
+
+*Note: This example requires an external driven buzzer.*
+*Note: Connect the buzzer between EX01 and 3V3. With the board face up, connect the buzzer to the top-left pin and the third pin from the left in the top row.*
+
+![](./images/22_buzzer.jpg)
+![](./images/22_buzzer_position.jpg)
+
+There are various ways to drive a buzzer, but here we use PWM.
+When using PWM with TinyGo, note that some microcontroller-specific configuration is required.
+
+For RP2040, when using the back panel pins (EX01 - EX04) on zero-kb02, you can use the following configuration.
+You need to know which pin to use and which PWMGroup it corresponds to.
+Below is a map of pins to their corresponding PWMGroup:
+
+```go
+var pinToPWM = map[machine.Pin]tone.PWM{
+	machine.GPIO14: machine.PWM7, // for EX01
+	machine.GPIO15: machine.PWM7, // for EX02
+	machine.GPIO26: machine.PWM5, // for EX03
+	machine.GPIO27: machine.PWM5, // for EX04
+}
+```
+
+After this, you can use `tinygo.org/x/drivers/tone` to produce sound:
+
+```go
+func main() {
+	bzrPin := machine.GPIO14
+	pwm := pinToPWM[bzrPin]
+	speaker, err := tone.New(pwm, bzrPin)
+	if err != nil {
+		println("failed to configure PWM")
+		return
+	}
+
+	song := []tone.Note{
+		tone.C5,
+		tone.D5,
+		tone.E5,
+		tone.F5,
+		tone.G5,
+		tone.A5,
+		tone.B5,
+		tone.C6,
+		tone.C6,
+		tone.B5,
+		tone.A5,
+		tone.G5,
+		tone.F5,
+		tone.E5,
+		tone.D5,
+		tone.C5,
+	}
+
+	for {
+		for _, val := range song {
+			speaker.SetNote(val)
+			time.Sleep(time.Second / 2)
+		}
+	}
+}
+```
+
+```shell
+$ tinygo flash --target waveshare-rp2040-zero --size short ./22_buzzer/
+```
+
+* External driven buzzer example
+  * https://akizukidenshi.com/catalog/g/g104118/
+* Reference sources
+  * https://github.com/tinygo-org/drivers/blob/release/examples/tone/tone.go
+  * https://github.com/sago35/tinygo-examples/blob/main/wioterminal/buzzer/main.go
+  * [./23_akatonbo](./23_akatonbo/)
+  * https://github.com/triring/7Keyx3Oct
+
+## Using an I2C Temperature/Humidity Sensor
+
+*Note: This example requires an I2C-connected SHT4x sensor (SHT40 / SHT41, etc.).*
+*Note: Connect it to the GROVE connector.*
+
+![](./images/24_sht40.jpg)
+
+Here we use an I2C sensor connected to the GROVE connector.
+Since the GROVE connector shares the same pins as the OLED, you need to use I2C0.
+
+The frequency is set to 2.8MHz here, but according to specifications, it should be lowered to around 400KHz.
+
+Temperature and humidity can be obtained using `ReadTemperatureHumidity()`:
+
+```go
+	// import "tinygo.org/x/drivers/sht4x" is required
+	machine.I2C0.Configure(machine.I2CConfig{
+		Frequency: 2.8 * machine.MHz,
+		SDA:       machine.GPIO12,
+		SCL:       machine.GPIO13,
+	})
+	sensor := sht4x.New(machine.I2C0)
+	temp, humidity, _ := sensor.ReadTemperatureHumidity()
+	t := fmt.Sprintf("Temperature %.2f C", float32(temp)/1000)
+	h := fmt.Sprintf("Humidity %.2f %%", float32(humidity)/1000)
+```
+
+* Where to get SHT4x
+  * https://www.switch-science.com/products/9270
+  * https://www.switch-science.com/products/8737
+  * https://akizukidenshi.com/catalog/g/g130207/
+
 # Using sago35/tinygo-keyboard
 
 The necessary elements for a custom keyboard vary from person to person.
