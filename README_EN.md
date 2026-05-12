@@ -618,7 +618,7 @@ $ tinygo flash --target waveshare-rp2040-zero --size short ./16_oled_inverted_hw
 
 ### Rotating the Screen 90 Degrees
 
-We have seen hwo to implement no rotation or inversion, however, in some cases, you might want to rotate the display 90 degrees to use it in portrait mode.
+We have seen how to implement no rotation or inversion; however, in some cases you might want to rotate the display 90 degrees to use it in portrait mode.
 In this case, you need to rotate via software.
 Screen drawing basically corresponds to the following Displayer interface, so we define a Displayer that can rotate the screen.
 
@@ -628,7 +628,7 @@ type Displayer interface {
     // Size returns the current size of the display.
     Size() (x, y int16)
 
-    // SetPizel modifies the internal buffer.
+    // SetPixel modifies the internal buffer.
     SetPixel(x, y int16, c color.RGBA)
 
     // Display sends the buffer (if any) to the screen.
