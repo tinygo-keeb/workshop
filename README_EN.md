@@ -76,9 +76,9 @@ However, it's inconvenient because you need to attach usbipd every time you run 
 
 * [Run tinygo monitor on raspberry pi pico with tinygo installed on WSL2 (Japanese)](https://qiita.com/kn12abc/items/d6bfc172cf08d9be6e1a)
 
-### Linux setup
+### Linux Setup
 
-To use `tinygo flash`, `tinygo monitor` or `Vial` on Linux, you need to configure udev rules.
+To use `tinygo flash`, `tinygo monitor`, or `Vial` on Linux, you need to configure udev rules.
 Create `/etc/udev/rules.d/99-zero-kb02-udev.rules` with the following contents and restart.
 
 ```
@@ -91,13 +91,12 @@ ATTRS{idVendor}=="2e8a", ATTRS{idProduct}=="[01]*", MODE:="0666", ENV{ID_MM_DEVI
 KERNEL=="hidraw*", SUBSYSTEM=="hidraw", ATTRS{serial}=="*vial:f64c2b3c*", MODE="0660", GROUP="users", TAG+="uaccess", TAG+="udev-acl"
 ```
 
-Here is a file with the same contents as above.
-
+A copy of this file is available here:
 
 * [./99-zero-kb02-udev.rules](./99-zero-kb02-udev.rules)
 
 This file was created from the following documents.
-Please refer to them for more details:
+For more details, please refer to:
 
 * https://docs.platformio.org/en/latest/core/installation/udev-rules.html
 * https://get.vial.today/manual/linux-udev.html
