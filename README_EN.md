@@ -171,12 +171,11 @@ For soldering and assembly instructions, please refer to the build guide:
 * [Build Guide (English)](./buildguide_EN.md)
 * [Build Guide (日本語)](./buildguide.md)
 
-
 # TinyGo Basics
 
 First, clone this repository somewhere.
 From now on, we'll execute commands from the root of this repository.
-If you want to modify the source code, please edit the local cod
+If you want to modify the source code, please edit the local code.
 
 ```
 $ git clone https://github.com/tinygo-keeb/workshop
@@ -189,7 +188,7 @@ $ code .
 
 The source code is in paths like `./00_basic` or `./12_matrix_basic`.
 
-## build & flash (method 1)
+## Build & Flash (Method 1)
 
 You can build and flash from the command line with TinyGo, but we'll learn how to flash manually too.
 Boards with RP2040 can boot into the bootloader by pressing the BOOT/BOOTSEL button while resetting (pressing the reset button or connecting to USB).
