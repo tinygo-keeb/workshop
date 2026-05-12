@@ -134,6 +134,12 @@ For information in Japanese, see:
 * [How to integrate TinyGo + 'VSCode or Vim (or other LSP-compatible editors)' with gopls](https://qiita.com/sago35/items/c30cbce4a0a3e12d899c)
 * [Settings for TinyGo + Vim with gopls](https://qiita.com/sago35/items/f0b058ed5c32b6446834)
 
+## Command-line Completion (Bash / Zsh / Clink)
+
+If you use Bash, Zsh, or Clink, you can install command-line completion for TinyGo:
+
+* https://github.com/sago35/tinygo-autocmpl
+
 # Development Target
 
 TinyGo Keeb Tour will use a home-made keyboard/macro pad called zero-kb02.
