@@ -194,14 +194,13 @@ You can build and flash from the command line with TinyGo, but we'll learn how t
 Boards with RP2040 can boot into the bootloader by pressing the BOOT/BOOTSEL button while resetting (pressing the reset button or connecting to USB).
 When in bootloader mode, the PC recognizes it as an external drive, so you can flash it by copying the binary file (`*.uf2`) to the newly created external drive.
 
-
 Try flashing the following:
 
 * [00_basic.uf2](https://github.com/tinygo-keeb/workshop/releases/download/0.1.0/00_basic.uf2)
 
 If the LEDs on the key switches light up, the write was successful.
 
-※This flashing method is also valid for uf2 files created outside of TinyGo. Putting the device into bootloader mode will help if for some reason the `flash` command does not work.
+*Note: This flashing method is also valid for uf2 files created outside of TinyGo. Putting the device into bootloader mode will help if for some reason the `flash` command does not work.*
 
 To create the 00_basic.uf2 yourself, execute the following command.
 If no error messages are displayed and `00_basic.uf2` is created, it's successful.
@@ -212,8 +211,7 @@ $ tinygo build -o 00_basic.uf2 --target waveshare-rp2040-zero --size short ./00_
   20420     192    3240 |   20612    3432
 ```
 
-
-## build & flash (method 2) + serial monitor
+## Build & Flash (Method 2) + Serial Monitor
 
 You can also build and flash at once using the tinygo flash command.
 If no error messages are displayed, the flash has completed successfully.
