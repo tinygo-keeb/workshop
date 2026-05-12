@@ -789,9 +789,14 @@ After creation, you can test it on sites like:
 * https://midi.city/
 * https://virtualpiano.eu/
 
-In Windows environments, MIDI-OX is a good option:  
+In Windows environments, MIDI-OX is a good option:
 
 * http://www.midiox.com/
+
+Please also refer to the following examples:
+
+* [./21_midi2](./21_midi2/)
+* https://github.com/conejoninja/midikeeb
 
 # Using sago35/tinygo-keyboard
 
