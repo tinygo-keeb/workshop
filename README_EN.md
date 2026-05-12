@@ -949,7 +949,22 @@ Available here:
 
 * https://github.com/sago35/keyboards
 
-## Troubleshooting
+# koebiten
+
+We are developing a 2D game engine for TinyGo called `koebiten`.
+It is positioned as a TinyGo version of `Ebitengine`, a 2D game engine for Go.
+It features support for multiple hardware platforms including zero-kb02, and a simple API.
+
+You can start by just running the samples.
+UF2 files can be downloaded from:
+
+* https://github.com/sago35/koebiten/releases
+
+An introductory guide is available on Zenn (in Japanese):
+
+* https://zenn.dev/sago35/books/b0d993b62f05c9
+
+# Troubleshooting
 
 - Cannot flash the program
 
@@ -963,7 +978,7 @@ COM7                 2E8A:0003 waveshare-rp2040-zero
 
 If not recognized, disconnect the microcontroller from the PC and reconnect it. Try putting it in bootloader mode: hold the BOOT button on the back, press the RST button and release both.
 
-## Examples
+# Examples
 
 * https://x.com/ysaito8015/status/1827626098450166185
 * https://x.com/ysaito8015/status/1827630059580231788
@@ -971,9 +986,12 @@ If not recognized, disconnect the microcontroller from the PC and reconnect it. 
 * https://x.com/Ryu_07_29/status/1847921967070163377
 * [./19_redkey/](./19_redkey/)
 * [./20_rotary_gopher](./20_rotary_gopher/)
-* [./21_midi2](./21_midi2/)
-* [./23_akatonbo](./23_akatonbo/)
-* https://github.com/conejoninja/midikeeb
+* MIDI
+  * [./21_midi2](./21_midi2/)
+  * https://github.com/conejoninja/midikeeb
+* Buzzer
+  * [./23_akatonbo](./23_akatonbo/)
+  * https://github.com/triring/7Keyx3Oct
 * https://x.com/triring/status/1891448348818776323
 * https://github.com/sago35/koebiten
 
