@@ -223,8 +223,8 @@ $ tinygo flash --target waveshare-rp2040-zero --size short examples/serial
    7836     108    3152 |    7944    3260
 ```
 
-The `examples/serial` written above is an example that displays `hello world!` to the serial output.
-You can check if its working with the following:
+The `examples/serial` program displays `hello world!` to the serial output.
+You can verify it's working with the following:
 
 ```
 $ tinygo monitor
@@ -233,7 +233,6 @@ hello world!
 hello world!
 hello world!
 ```
-
 
 If you can't connect properly, check the port and add the --port option.
 The waveshare-rp2040-zero uses the same USB VID/PID as other boards with the RP2040 microcontroller, so the Boards section might not display correctly, but don't worry about it.
@@ -263,9 +262,11 @@ hello world!
 hello world!
 ```
 
-### Troubleshooting tinygo flash doesn't work on macOS 15 Sequoia
+### Troubleshooting: tinygo flash doesn't work on macOS 15 Sequoia (TinyGo 0.37 and earlier only)
 
-Add `NO NAME` to `msd-volume-name` in `$TINYGOROOT/targets/rp2040.json`.  
+*Note: This issue was [fixed by micchie](https://github.com/tinygo-org/tinygo/pull/4928) and merged into TinyGo 0.38.*
+
+Add `NO NAME` to `msd-volume-name` in `$TINYGOROOT/targets/rp2040.json`.
 You can find $TINYGOROOT with `tinygo env`.  
 
 The modified JSON file is as follows:  
