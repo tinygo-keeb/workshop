@@ -5,6 +5,11 @@
 This page is for the TinyGo Keeb Tour that started on 2024/08/04.
 If you have any questions, please create an issue in this repository or contact [twitter:sago35tk](https://x.com/sago35tk).
 
+This page has Japanese and English versions.
+
+* [README.md](./README.md)
+* [README_EN.md](./README_EN.md)
+
 For hardware assembly, please refer to the build guide:
 
 * [Build Guide (English)](./buildguide_EN.md)
