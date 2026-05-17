@@ -36,14 +36,14 @@ TinyGo typically requires the latest or previous version of Go.
 
 | TinyGo | Compatible Go |
 | ------ | ------------- |
+| 0.41.1 | 1.26 - 1.25   |
 | 0.40.1 | 1.25 - 1.24   |
-| 0.39.0 | 1.25 - 1.24   |
 
 You can verify your installation with these commands:
 
 ```
 $ tinygo version
-tinygo version 0.40.1 windows/amd64 (using go version go1.25.6 and LLVM version 20.1.1)
+tinygo version 0.41.1 windows/amd64 (using go version go1.25.6 and LLVM version 20.1.1)
 ```
 
 ```
