@@ -3,15 +3,14 @@
 ![](./images/zero-kb02.jpg)
 
 This page is for the TinyGo Keeb Tour that started on 2024/08/04.
-If you have any questions, please create in an issue in this repository or contact [twitter:sago35tk](https://x.com/sago35tk).
+If you have any questions, please create an issue in this repository or contact [twitter:sago35tk](https://x.com/sago35tk).
 
-For hardware assembly, please refer to the following.
+For hardware assembly, please refer to the build guide:
 
+* [Build Guide (English)](./buildguide_EN.md)
+* [ビルドガイド (日本語)](./buildguide.md)
 
-* [ビルドガイド](./buildguide.md)
-* [build guide (english)](./buildguide_EN.md)
-
-To this page QR code is here.  
+QR code for this page:
 
 ![](./images/qr_tinygo_keeb_workshop_top_english.png)
 
@@ -20,46 +19,46 @@ To this page QR code is here.
 ## TinyGo Installation
 
 The following dependencies are required.
-For TinyGo, we have included the URL for v0.35.0, which is the latest version at the time of writting this page, but please use the latest version available.
+For TinyGo, please use the latest version available.
 
 * Git
     * https://git-scm.com/downloads
     * Not required for Go / TinyGo, but necessary for this workshop
 * Go
     * https://go.dev/dl/
-        * installation instructions : https://go.dev/doc/install
+        * Installation instructions: https://go.dev/doc/install
 * TinyGo
     * https://github.com/tinygo-org/tinygo/releases/latest
-        * installation instructions : https://tinygo.org/getting-started/install/
+        * Installation instructions: https://tinygo.org/getting-started/install/
 
-Note that there is a version combination between Go and TinyGo.
-Basically, TinyGo must be used with the latest and most recent version of Go.
+Note that Go and TinyGo versions must be compatible.
+TinyGo typically requires the latest or previous version of Go.
 
 | TinyGo | Compatible Go |
-| ------ | ----------- |
-| 0.35.0 | 1.23 - 1.22 |
+| ------ | ------------- |
+| 0.40.1 | 1.25 - 1.24   |
+| 0.39.0 | 1.25 - 1.24   |
 
-
-You can check if the installation was successful or not at the following
+You can verify your installation with these commands:
 
 ```
 $ tinygo version
-tinygo version 0.35.0 windows/amd64 (using go version go1.23.6 and LLVM version 18.1.2)
+tinygo version 0.40.1 windows/amd64 (using go version go1.25.6 and LLVM version 20.1.1)
 ```
 
 ```
 $ tinygo build -o out.uf2 --target waveshare-rp2040-zero --size short examples/serial
    code    data     bss |   flash     ram
-   7836     108    3152 |    7944    3260
+   9720     108    5208 |    9828    5316
 ```
 
 ```
 $ tinygo flash --target waveshare-rp2040-zero --size short examples/serial
    code    data     bss |   flash     ram
-   7932     108    3168 |    8040    3276
+   9720     108    5208 |    9828    5316
 
 $ tinygo monitor --target waveshare-rp2040-zero
-Connected to COM4. Press Ctrl-C to exit.
+Connected to COM12. Press Ctrl-C to exit.
 hello world!
 hello world!
 hello world!
@@ -67,19 +66,19 @@ hello world!
 
 ### Windows + WSL2
 
-You can use the linux version of TinyGo for Ubuntu on WSL2.
+You can use the Linux version of TinyGo on Ubuntu in WSL2.
 However, WSL2 cannot directly access USB devices connected to the Windows host.
-Even when using WSL2, it is basically better to install the Windows version of TinyGo on the Windows path.
-In this case, it is necessary to install the Windows version of Go as well.
+Even when using WSL2, it's generally better to install the Windows version of TinyGo in your Windows PATH.
+In this case, you'll also need to install the Windows version of Go.
 
-If you really want to communicate with TinyGo on WSL2, you can use usbipd as follows.
-However, it is not very comfortable because you need to attach usbipd every time you do tinygo flash.
+If you insist on using TinyGo from WSL2, you can use usbipd as shown below.
+However, it's inconvenient because you need to attach usbipd every time you run `tinygo flash`.
 
-* [Run tinygo monitor on raspberry pi pico with tinygo installed on WSL2 (japanese)](https://qiita.com/kn12abc/items/d6bfc172cf08d9be6e1a)
+* [Run tinygo monitor on raspberry pi pico with tinygo installed on WSL2 (Japanese)](https://qiita.com/kn12abc/items/d6bfc172cf08d9be6e1a)
 
-### Linux setup
+### Linux Setup
 
-To use `tinygo flash`, `tinygo monitor` or `Vial` on Linux, you need to configure udev rules.
+To use `tinygo flash`, `tinygo monitor`, or `Vial` on Linux, you need to configure udev rules.
 Create `/etc/udev/rules.d/99-zero-kb02-udev.rules` with the following contents and restart.
 
 ```
@@ -92,13 +91,12 @@ ATTRS{idVendor}=="2e8a", ATTRS{idProduct}=="[01]*", MODE:="0666", ENV{ID_MM_DEVI
 KERNEL=="hidraw*", SUBSYSTEM=="hidraw", ATTRS{serial}=="*vial:f64c2b3c*", MODE="0660", GROUP="users", TAG+="uaccess", TAG+="udev-acl"
 ```
 
-Here is a file with the same contents as above.
-
+A copy of this file is available here:
 
 * [./99-zero-kb02-udev.rules](./99-zero-kb02-udev.rules)
 
 This file was created from the following documents.
-Please refer to them for more details:
+For more details, please refer to:
 
 * https://docs.platformio.org/en/latest/core/installation/udev-rules.html
 * https://get.vial.today/manual/linux-udev.html
@@ -107,15 +105,14 @@ Please refer to them for more details:
 
 If you want to use the latest version under development, download Artifact > release-double-zipped built by GitHub Actions.
 
-* windows
+* Windows
     * https://github.com/tinygo-org/tinygo/actions/workflows/windows.yml?query=branch%3Adev
-* linux
+* Linux
     * https://github.com/tinygo-org/tinygo/actions/workflows/linux.yml?query=branch%3Adev
-* macos
+* macOS
     * https://github.com/tinygo-org/tinygo/actions/workflows/build-macos.yml?query=branch%3Adev
 
-
-For more information see:
+For more information, see:
 
 * [TinyGo の開発版のビルド方法と、ビルドせずに開発版バイナリを手に入れる方法](https://qiita.com/sago35/items/33e63ca5073f572ad69c#pr-%E5%86%85%E3%81%A7%E4%BD%9C%E6%88%90%E3%81%95%E3%82%8C%E3%81%9F%E3%83%90%E3%82%A4%E3%83%8A%E3%83%AA%E3%82%92%E4%BD%BF%E3%81%86)
 * [Building from source TinyGo](https://tinygo.org/docs/guides/build/)
@@ -129,7 +126,7 @@ The official documentation is available here:
 
 * https://tinygo.org/docs/guides/ide-integration/
 
-For VSCode, it's good to install the TinyGo extension.
+For VS Code, we recommend installing the TinyGo extension.
 For Vim (+ vim-lsp), try `github.com/sago35/tinygo.vim`.
 
 For information in Japanese, see:
@@ -137,17 +134,22 @@ For information in Japanese, see:
 * [How to integrate TinyGo + 'VSCode or Vim (or other LSP-compatible editors)' with gopls](https://qiita.com/sago35/items/c30cbce4a0a3e12d899c)
 * [Settings for TinyGo + Vim with gopls](https://qiita.com/sago35/items/f0b058ed5c32b6446834)
 
+## Command-line Completion (Bash / Zsh / Clink)
+
+If you use Bash, Zsh, or Clink, you can install command-line completion for TinyGo:
+
+* https://github.com/sago35/tinygo-autocmpl
 
 # Development Target
 
-TinyGo Keeb Tour will use a home-made keyboard/macro pad called zero-kb02.
-Microcontroller is RP2040 (Cortex M0+) and microcontroller board is [Waveshare RP2040-Zero](https://www.waveshare.com/rp2040-zero.htm).
+The TinyGo Keeb Tour uses a custom keyboard/macro pad called zero-kb02.
+The microcontroller is an RP2040 (Cortex M0+), and the board is [Waveshare RP2040-Zero](https://www.waveshare.com/rp2040-zero.htm).
 
-! [](. /images/zero-kb02.jpg)
+![](./images/zero-kb02.jpg)
 
-Main features include.
+Main features:
 
-* Waveshare RP2040-Zero.
+* Waveshare RP2040-Zero
     * https://www.waveshare.com/rp2040-zero.htm
     * https://www.waveshare.com/wiki/RP2040-Zero
 * 12 keys with RGB LEDs
@@ -159,9 +161,8 @@ Main features include.
 
 Schematics, firmware, pinouts, etc. can be found at:
 
-
 * https://github.com/sago35/keyboards
-    * Schematics : [kicanvas](https://kicanvas.org/?github=https%3A%2F%2Fgithub.com%2Fsago35%2Fkeyboards%2Ftree%2Fmain%2Fzero-kb02%2Fzero-kb02)
+    * Schematics: [kicanvas](https://kicanvas.org/?github=https%3A%2F%2Fgithub.com%2Fsago35%2Fkeyboards%2Ftree%2Fmain%2Fzero-kb02%2Fzero-kb02)
 
 ## Assembly
 
@@ -170,12 +171,11 @@ For soldering and assembly instructions, please refer to the build guide:
 * [Build Guide (English)](./buildguide_EN.md)
 * [Build Guide (日本語)](./buildguide.md)
 
-
 # TinyGo Basics
 
 First, clone this repository somewhere.
 From now on, we'll execute commands from the root of this repository.
-If you want to modify the source code, please edit the local cod
+If you want to modify the source code, please edit the local code.
 
 ```
 $ git clone https://github.com/tinygo-keeb/workshop
@@ -188,12 +188,11 @@ $ code .
 
 The source code is in paths like `./00_basic` or `./12_matrix_basic`.
 
-## build & flash (method 1)
+## Build & Flash (Method 1)
 
 You can build and flash from the command line with TinyGo, but we'll learn how to flash manually too.
 Boards with RP2040 can boot into the bootloader by pressing the BOOT/BOOTSEL button while resetting (pressing the reset button or connecting to USB).
 When in bootloader mode, the PC recognizes it as an external drive, so you can flash it by copying the binary file (`*.uf2`) to the newly created external drive.
-
 
 Try flashing the following:
 
@@ -201,7 +200,7 @@ Try flashing the following:
 
 If the LEDs on the key switches light up, the write was successful.
 
-※This flashing method is also valid for uf2 files created outside of TinyGo. Putting the device into bootloader mode will help if for some reason the `flash` command does not work.
+*Note: This flashing method is also valid for uf2 files created outside of TinyGo. Putting the device into bootloader mode will help if for some reason the `flash` command does not work.*
 
 To create the 00_basic.uf2 yourself, execute the following command.
 If no error messages are displayed and `00_basic.uf2` is created, it's successful.
@@ -212,8 +211,7 @@ $ tinygo build -o 00_basic.uf2 --target waveshare-rp2040-zero --size short ./00_
   20420     192    3240 |   20612    3432
 ```
 
-
-## build & flash (method 2) + serial monitor
+## Build & Flash (Method 2) + Serial Monitor
 
 You can also build and flash at once using the tinygo flash command.
 If no error messages are displayed, the flash has completed successfully.
@@ -225,8 +223,8 @@ $ tinygo flash --target waveshare-rp2040-zero --size short examples/serial
    7836     108    3152 |    7944    3260
 ```
 
-The `examples/serial` written above is an example that displays `hello world!` to the serial output.
-You can check if its working with the following:
+The `examples/serial` program displays `hello world!` to the serial output.
+You can verify it's working with the following:
 
 ```
 $ tinygo monitor
@@ -235,7 +233,6 @@ hello world!
 hello world!
 hello world!
 ```
-
 
 If you can't connect properly, check the port and add the --port option.
 The waveshare-rp2040-zero uses the same USB VID/PID as other boards with the RP2040 microcontroller, so the Boards section might not display correctly, but don't worry about it.
@@ -265,9 +262,11 @@ hello world!
 hello world!
 ```
 
-### Troubleshooting tinygo flash doesn't work on macOS 15 Sequoia
+### Troubleshooting: tinygo flash doesn't work on macOS 15 Sequoia (TinyGo 0.37 and earlier only)
 
-Add `NO NAME` to `msd-volume-name` in `$TINYGOROOT/targets/rp2040.json`.  
+*Note: This issue was [fixed by micchie](https://github.com/tinygo-org/tinygo/pull/4928) and merged into TinyGo 0.38.*
+
+Add `NO NAME` to `msd-volume-name` in `$TINYGOROOT/targets/rp2040.json`.
 You can find $TINYGOROOT with `tinygo env`.  
 
 The modified JSON file is as follows:  
@@ -296,7 +295,6 @@ The modified JSON file is as follows:
 
 * https://github.com/tinygo-org/tinygo/issues/4519
 
-
 ### How to stop "Disk Not Ejected Properly" notifications from accumulating on macOS
 
 Open a terminal and run the following, then restart:
@@ -313,19 +311,15 @@ $ sudo defaults delete /Library/Preferences/SystemConfiguration/com.apple.DiskAr
 
 See: https://www.reddit.com/r/mac/comments/vsn1t6/how_to_disable_not_ejected_safely_notification_on/
 
-
-
 ### If you absolutely cannot flash to the device
 
-The following possibilities exist:
+This could be due to:
 
 * There's a problem with the USB cable
   * Check if it's recognized with `tinygo ports` or as a drive (try booting into bootloader mode)
 * Writing to external drives is restricted
   * Company computers may restrict writing for security reasons
   * In this case, neither tinygo flash nor copying uf2 files will work
-
-
 
 ## LED Blink
 
@@ -348,7 +342,7 @@ for {
 }
 ```
 
-Other color examples are as follows.
+Here are some other color examples.
 You can set any color by specifying RGBA.
 You can (somewhat) reduce the brightness by making the 0xFF values smaller.
 
@@ -360,7 +354,6 @@ yellow  = color.RGBA{R: 0xFF, G: 0xFF, B: 0x00, A: 0x00}
 cyan    = color.RGBA{R: 0x00, G: 0xFF, B: 0xFF, A: 0x00}
 magenta = color.RGBA{R: 0xFF, G: 0x00, B: 0xFF, A: 0x00}
 ```
-
 
 ## LED Blink (2)
 
@@ -409,7 +402,7 @@ You can (somewhat) reduce the brightness by making the 0xFF values smaller.
 ## USB CDC Hello World
 
 Let's also try USB CDC, which is useful for printf debugging and other purposes.
-USB CDC stands for Universal Serial Bus Communications Device Class, and roughly speaking, it's for communication between a computer and a microcontroller throught the USB cable.
+USB CDC stands for Universal Serial Bus Communications Device Class, and simply put, it enables serial communication between a computer and a microcontroller through the USB cable.
 Rather than explaining, it's easier to understand by trying it, so first run the following:
 
 ```shell
@@ -433,7 +426,7 @@ hello world!
 (omitted)
 ```
 
-examples/serial is a source ([./03_usbcdc-serial](./03_usbcdc-serial)) like the following.
+The `examples/serial` source is located at [./03_usbcdc-serial](./03_usbcdc-serial).
 It repeatedly displays `hello world!` and then waits for 1 second.
 Try changing the wait time, display string, or using fmt.Printf() for writing.
 
@@ -441,8 +434,12 @@ Try changing the wait time, display string, or using fmt.Printf() for writing.
 $ tinygo flash --target waveshare-rp2040-zero --size short ./03_usbcdc-serial/
 ```
 
-Standard input can be handled with a code like the following: ([./04_usbcdc-echo/](./04_usbcdc-echo/)).
+Standard input can be handled with code like [./04_usbcdc-echo/](./04_usbcdc-echo/).
 After pressing `Enter`/`Return`, you need to press `Ctrl-j` for a line break.
+
+```shell
+$ tinygo flash --target waveshare-rp2040-zero --size short ./04_usbcdc-echo/
+```
 
 ```go
 // ./04_usbcdc-echo/main.go
@@ -462,11 +459,9 @@ func main() {
 }
 ```
 
-
-
 ## Rotary Encoder
 
-You can use encoders/quadrature interrupts from tinygo-org/drivers.
+You can use `encoders/quadrature-interrupt` from tinygo-org/drivers.
 
 * https://github.com/tinygo-org/drivers/blob/release/examples/encoders/quadrature-interrupt/main.go
 
@@ -483,9 +478,9 @@ enc.Configure(encoders.QuadratureConfig{
 })
 ```
 
-You can check and play with the example 05_rotary.
+You can write and check operation with the following commands.
 When you turn the rotary encoder, the value display will update.
-It might be interesting to link it with the LEDs as an exercise.
+Try linking it with the LEDs as an exercise.
 
 ```
 $ tinygo flash --target waveshare-rp2040-zero --size short ./05_rotary/
@@ -509,7 +504,7 @@ Getting the pressed state of the rotary encoder will be discussed in the next se
 ## Getting the Pressed State of the Rotary Encoder
 
 When the rotary encoder is pressed, it connects to GND and goes Low.
-If you pull it up, it will be High when not pressed.
+With pull-up enabled, it will be High when not pressed.
 
 The basic code is as follows:
 
@@ -529,7 +524,6 @@ $ tinygo monitor
 ```
 
 When you press the rotary encoder, `pressed` will be output to the terminal running `tinygo monitor`.
-
 
 ## Analog Joystick
 
@@ -576,11 +570,11 @@ display.Configure(ssd1306.Config{
 
 You can write and check operation with the following command:
 
-```go
+```shell
 $ tinygo flash --target waveshare-rp2040-zero --size short ./07_oled/
 ```
 
-※As of 2024/08/04, OLED drawing sometimes stops (currently investigating)
+*Note: As of 2024/08/04, OLED drawing sometimes stops (currently investigating)*
 
 ### Drawing Shapes
 
@@ -624,7 +618,7 @@ $ tinygo flash --target waveshare-rp2040-zero --size short ./16_oled_inverted_hw
 
 ### Rotating the Screen 90 Degrees
 
-We have seen hwo to implement no rotation or inversion, however, in some cases, you might want to rotate the display 90 degrees to use it in portrait mode.
+We have seen how to implement no rotation or inversion; however, in some cases you might want to rotate the display 90 degrees to use it in portrait mode.
 In this case, you need to rotate via software.
 Screen drawing basically corresponds to the following Displayer interface, so we define a Displayer that can rotate the screen.
 
@@ -634,7 +628,7 @@ type Displayer interface {
     // Size returns the current size of the display.
     Size() (x, y int16)
 
-    // SetPizel modifies the internal buffer.
+    // SetPixel modifies the internal buffer.
     SetPixel(x, y int16, c color.RGBA)
 
     // Display sends the buffer (if any) to the screen.
@@ -731,7 +725,7 @@ $ tinygo flash --target waveshare-rp2040-zero --size short --monitor ./12_matrix
 
 By organizing the loops and making the number of keys variable, you can move closer to a keyboard firmware.
 
-※ For those who want to learn more about matrix wiring, please see:
+*Note: For those who want to learn more about matrix wiring, please see:*
 https://blog.ikejima.org/make/keyboard/2019/12/14/keyboard-circuit.html
 
 ## USB HID Keyboard Using Pin Input
@@ -795,9 +789,122 @@ After creation, you can test it on sites like:
 * https://midi.city/
 * https://virtualpiano.eu/
 
-In Windows environments, MIDI-OX is a good option:  
+In Windows environments, MIDI-OX is a good option:
 
 * http://www.midiox.com/
+
+Please also refer to the following examples:
+
+* [./21_midi2](./21_midi2/)
+* https://github.com/conejoninja/midikeeb
+
+## Using a Buzzer
+
+*Note: This example requires an external driven buzzer.*
+*Note: Connect the buzzer between EX01 and 3V3. With the board face up, connect the buzzer to the top-left pin and the third pin from the left in the top row.*
+
+![](./images/22_buzzer.jpg)
+![](./images/22_buzzer_position.jpg)
+
+There are various ways to drive a buzzer, but here we use PWM.
+When using PWM with TinyGo, note that some microcontroller-specific configuration is required.
+
+For RP2040, when using the back panel pins (EX01 - EX04) on zero-kb02, you can use the following configuration.
+You need to know which pin to use and which PWMGroup it corresponds to.
+Below is a map of pins to their corresponding PWMGroup:
+
+```go
+var pinToPWM = map[machine.Pin]tone.PWM{
+	machine.GPIO14: machine.PWM7, // for EX01
+	machine.GPIO15: machine.PWM7, // for EX02
+	machine.GPIO26: machine.PWM5, // for EX03
+	machine.GPIO27: machine.PWM5, // for EX04
+}
+```
+
+After this, you can use `tinygo.org/x/drivers/tone` to produce sound:
+
+```go
+func main() {
+	bzrPin := machine.GPIO14
+	pwm := pinToPWM[bzrPin]
+	speaker, err := tone.New(pwm, bzrPin)
+	if err != nil {
+		println("failed to configure PWM")
+		return
+	}
+
+	song := []tone.Note{
+		tone.C5,
+		tone.D5,
+		tone.E5,
+		tone.F5,
+		tone.G5,
+		tone.A5,
+		tone.B5,
+		tone.C6,
+		tone.C6,
+		tone.B5,
+		tone.A5,
+		tone.G5,
+		tone.F5,
+		tone.E5,
+		tone.D5,
+		tone.C5,
+	}
+
+	for {
+		for _, val := range song {
+			speaker.SetNote(val)
+			time.Sleep(time.Second / 2)
+		}
+	}
+}
+```
+
+```shell
+$ tinygo flash --target waveshare-rp2040-zero --size short ./22_buzzer/
+```
+
+* External driven buzzer example
+  * https://akizukidenshi.com/catalog/g/g104118/
+* Reference sources
+  * https://github.com/tinygo-org/drivers/blob/release/examples/tone/tone.go
+  * https://github.com/sago35/tinygo-examples/blob/main/wioterminal/buzzer/main.go
+  * [./23_akatonbo](./23_akatonbo/)
+  * https://github.com/triring/7Keyx3Oct
+
+## Using an I2C Temperature/Humidity Sensor
+
+*Note: This example requires an I2C-connected SHT4x sensor (SHT40 / SHT41, etc.).*
+*Note: Connect it to the GROVE connector.*
+
+![](./images/24_sht40.jpg)
+
+Here we use an I2C sensor connected to the GROVE connector.
+Since the GROVE connector shares the same pins as the OLED, you need to use I2C0.
+
+The frequency is set to 2.8MHz here, but according to specifications, it should be lowered to around 400KHz.
+
+Temperature and humidity can be obtained using `ReadTemperatureHumidity()`:
+
+```go
+	// import "tinygo.org/x/drivers/sht4x" is required
+	machine.I2C0.Configure(machine.I2CConfig{
+		Frequency: 2.8 * machine.MHz,
+		SDA:       machine.GPIO12,
+		SCL:       machine.GPIO13,
+	})
+	sensor := sht4x.New(machine.I2C0)
+	temp, humidity, _ := sensor.ReadTemperatureHumidity()
+	t := fmt.Sprintf("Temperature %.2f C", float32(temp)/1000)
+	h := fmt.Sprintf("Humidity %.2f %%", float32(humidity)/1000)
+```
+
+* Where to get SHT4x
+  * https://www.switch-science.com/products/9270
+  * https://www.switch-science.com/products/8737
+  * https://akizukidenshi.com/catalog/g/g130207/
 
 # Using sago35/tinygo-keyboard
 
@@ -842,7 +949,22 @@ Available here:
 
 * https://github.com/sago35/keyboards
 
-## Troubleshooting
+# koebiten
+
+We are developing a 2D game engine for TinyGo called `koebiten`.
+It is positioned as a TinyGo version of `Ebitengine`, a 2D game engine for Go.
+It features support for multiple hardware platforms including zero-kb02, and a simple API.
+
+You can start by just running the samples.
+UF2 files can be downloaded from:
+
+* https://github.com/sago35/koebiten/releases
+
+An introductory guide is available on Zenn (in Japanese):
+
+* https://zenn.dev/sago35/books/b0d993b62f05c9
+
+# Troubleshooting
 
 - Cannot flash the program
 
@@ -856,7 +978,7 @@ COM7                 2E8A:0003 waveshare-rp2040-zero
 
 If not recognized, disconnect the microcontroller from the PC and reconnect it. Try putting it in bootloader mode: hold the BOOT button on the back, press the RST button and release both.
 
-## Examples
+# Examples
 
 * https://x.com/ysaito8015/status/1827626098450166185
 * https://x.com/ysaito8015/status/1827630059580231788
@@ -864,9 +986,12 @@ If not recognized, disconnect the microcontroller from the PC and reconnect it. 
 * https://x.com/Ryu_07_29/status/1847921967070163377
 * [./19_redkey/](./19_redkey/)
 * [./20_rotary_gopher](./20_rotary_gopher/)
-* [./21_midi2](./21_midi2/)
-* [./23_akatonbo](./23_akatonbo/)
-* https://github.com/conejoninja/midikeeb
+* MIDI
+  * [./21_midi2](./21_midi2/)
+  * https://github.com/conejoninja/midikeeb
+* Buzzer
+  * [./23_akatonbo](./23_akatonbo/)
+  * https://github.com/triring/7Keyx3Oct
 * https://x.com/triring/status/1891448348818776323
 * https://github.com/sago35/koebiten
 
