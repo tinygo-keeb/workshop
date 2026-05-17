@@ -5,6 +5,11 @@
 このページは 2024/08/04 からスタートした TinyGo Keeb Tour 用の記事です。
 不明点はこのリポジトリの Issue や [twitter:sago35tk](https://x.com/sago35tk) で質問いただければサポートします。
 
+このページは日本語版と英語版があります。
+
+* [README.md](./README.md)
+* [README_EN.md](./README_EN.md)
+
 ハードウェアの組み立ては以下を参照してください。
 
 * [ビルドガイド](./buildguide.md)
