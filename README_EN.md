@@ -999,6 +999,10 @@ If not recognized, disconnect the microcontroller from the PC and reconnect it. 
   * https://github.com/triring/7Keyx3Oct
 * https://x.com/triring/status/1891448348818776323
 * https://github.com/sago35/koebiten
+* RGB LED
+  * [./26_raindrop](./26_raindrop/)
+* LCD
+  * [./25_life](./25_life/)
 
 # Other Tips
 
