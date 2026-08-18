@@ -74,6 +74,14 @@ hello world!
 hello world!
 ```
 
+macOS 15 Sequoia 以降をお使いの方は、`tinygo flash` にポートを指定してください。
+以降に出てくる `tinygo flash` コマンドについても同様です。
+ポート名は環境によって異なるため、必要に応じて `tinygo ports` で確認してください。
+
+```
+$ tinygo flash -port=$(ls /dev/cu.usbmodem*) --target waveshare-rp2040-zero --size short examples/serial
+```
+
 ### Windows + WSL2
 
 WSL2 上の Ubuntu などには linux 版の TinyGo を使うことができます。
