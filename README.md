@@ -79,7 +79,7 @@ macOS 15 Sequoia 以降をお使いの方は、`tinygo flash` にポートを指
 ポート名は環境によって異なるため、必要に応じて `tinygo ports` で確認してください。
 
 ```
-$ tinygo flash -port=/dev/cu.usbmodem2101 --target waveshare-rp2040-zero --size short examples/serial
+$ tinygo flash -port=$(ls /dev/cu.usbmodem*) --target waveshare-rp2040-zero --size short examples/serial
 ```
 
 ### Windows + WSL2

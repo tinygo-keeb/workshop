@@ -74,7 +74,7 @@ This also applies to the other `tinygo flash` commands shown below.
 Port names vary by environment; use `tinygo ports` to find yours if necessary.
 
 ```
-$ tinygo flash -port=/dev/cu.usbmodem2101 --target waveshare-rp2040-zero --size short examples/serial
+$ tinygo flash -port=$(ls /dev/cu.usbmodem*) --target waveshare-rp2040-zero --size short examples/serial
 ```
 
 ### Windows + WSL2
