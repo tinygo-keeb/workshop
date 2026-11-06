@@ -919,6 +919,27 @@ Temperature and humidity can be obtained using `ReadTemperatureHumidity()`:
   * https://www.switch-science.com/products/8737
   * https://akizukidenshi.com/catalog/g/g130207/
 
+## Using WS2813 LEDs on the GROVE Connector
+
+*Note: This example requires a WS2812 / WS2813 compatible LED stick with a GROVE connector (10 LEDs).*
+*Note: Connect it to the GROVE connector.*
+
+The LED data line is GROVE pin 1, which is SCL (GPIO13).
+The OLED shares this pin, so this example does not use the OLED.
+The GROVE connector supplies 3.3V, so the brightness is reduced to 1/8.
+
+```go
+	// import "tinygo.org/x/drivers/ws2812" is required
+	pin := machine.GPIO13
+	pin.Configure(machine.PinConfig{Mode: machine.PinOutput})
+	ws := ws2812.New(pin)
+	ws.WriteColors(leds)
+```
+
+```shell
+$ tinygo flash --target waveshare-rp2040-zero --size short ./25_grove_ws2813/
+```
+
 # Using sago35/tinygo-keyboard
 
 The necessary elements for a custom keyboard vary from person to person.
