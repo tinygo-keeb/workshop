@@ -133,6 +133,7 @@ KERNEL=="hidraw*", SUBSYSTEM=="hidraw", ATTRS{serial}=="*vial:f64c2b3c*", MODE="
 詳細は以下を参照してください。
 
 * [TinyGo の開発版のビルド方法と、ビルドせずに開発版バイナリを手に入れる方法](https://qiita.com/sago35/items/33e63ca5073f572ad69c#pr-%E5%86%85%E3%81%A7%E4%BD%9C%E6%88%90%E3%81%95%E3%82%8C%E3%81%9F%E3%83%90%E3%82%A4%E3%83%8A%E3%83%AA%E3%82%92%E4%BD%BF%E3%81%86)
+* [Building from source TinyGo](https://tinygo.org/docs/guides/build/)
 
 ## LSP / gopls 対応
 
@@ -647,7 +648,7 @@ type Displayer interface {
     // Size returns the current size of the display.
     Size() (x, y int16)
 
-    // SetPizel modifies the internal buffer.
+    // SetPixel modifies the internal buffer.
     SetPixel(x, y int16, c color.RGBA)
 
     // Display sends the buffer (if any) to the screen.
@@ -808,6 +809,7 @@ $ tinygo flash --target waveshare-rp2040-zero --size short ./18_midi/
 作成後は例えば以下のようなサイトで試すことができます。  
 
 * https://midi.city/
+* https://virtualpiano.eu/
 
 Windows 環境では MIDI-OX を使うとよいでしょう。  
 
@@ -926,6 +928,42 @@ Frequency は 2.8MHz としていますが、スペック上は 400KHz とかに
   * https://www.switch-science.com/products/8737
   * https://akizukidenshi.com/catalog/g/g130207/
 
+## RP2040 の内蔵温度センサーを使う
+
+RP2040 には温度センサーが内蔵されているので、外付けのセンサーがなくても温度を取得できます。  
+`machine.ReadTemperature()` はミリ度 (1/1000 ℃) 単位の値を返すので、 1000 で割って ℃ に変換します。  
+この例では 1 秒ごとに温度を OLED に表示し、シリアルにも出力します。  
+
+```go
+	temp := float32(machine.ReadTemperature()) / 1000
+	println(fmt.Sprintf("温度: %4.1f℃", temp))
+```
+
+```shell
+$ tinygo flash --target waveshare-rp2040-zero --size short ./27_cputemp/
+```
+
+## GROVE 端子で WS2813 LED を使う
+
+※ この例を試すには GROVE 端子付きの WS2812 / WS2813 互換 LED スティック (10 LED) が必要です
+※ GROVE 端子に接続してください
+
+LED のデータ線は GROVE の 1 番ピンである SCL (GPIO13) です。  
+OLED も同じピンを使っているので、この例では OLED を使用しません。  
+GROVE 端子の電源は 3.3V なので、明るさを 1/8 に下げています。  
+
+```go
+	// import "tinygo.org/x/drivers/ws2812" が必要
+	pin := machine.GPIO13
+	pin.Configure(machine.PinConfig{Mode: machine.PinOutput})
+	ws := ws2812.New(pin)
+	ws.WriteColors(leds)
+```
+
+```shell
+$ tinygo flash --target waveshare-rp2040-zero --size short ./28_grove_ws2813/
+```
+
 # sago35/tinygo-keyboard を使う
 
 自作キーボードに必要な要素、というのは人によって違うと思います。
@@ -998,7 +1036,7 @@ Port                 ID        Boards
 COM7                 2E8A:0003 waveshare-rp2040-zero
 ```
 
-認識されていない場合は、マイコンをPCから外して挿し直してください。
+認識されていない場合は、マイコンをPCから外して挿し直してください。また、ブートローダーへの遷移も試してください。裏面の BOOT ボタンを押したまま RST ボタンを押し、両方のボタンを離します。
 
 # 作例
 
