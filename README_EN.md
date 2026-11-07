@@ -890,6 +890,7 @@ $ tinygo flash --target waveshare-rp2040-zero --size short ./22_buzzer/
   * https://github.com/tinygo-org/drivers/blob/release/examples/tone/tone.go
   * https://github.com/sago35/tinygo-examples/blob/main/wioterminal/buzzer/main.go
   * [./23_akatonbo](./23_akatonbo/)
+  * [./29_rotary_menu](./29_rotary_menu/)
   * https://github.com/triring/7Keyx3Oct
 
 ## Using an I2C Temperature/Humidity Sensor
@@ -1045,6 +1046,7 @@ If not recognized, disconnect the microcontroller from the PC and reconnect it. 
   * https://github.com/conejoninja/midikeeb
 * Buzzer
   * [./23_akatonbo](./23_akatonbo/)
+  * [./29_rotary_menu](./29_rotary_menu/)
   * https://github.com/triring/7Keyx3Oct
 * https://x.com/triring/status/1891448348818776323
 * https://github.com/sago35/koebiten
