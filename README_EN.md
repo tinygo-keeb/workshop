@@ -44,6 +44,11 @@ TinyGo typically requires the latest or previous version of Go.
 | 0.41.1 | 1.26 - 1.25   |
 | 0.40.1 | 1.25 - 1.24   |
 
+You can use them as long as each executable is on your PATH.
+The following is a bit old, but may also be helpful.
+
+* [TinyGo のインストール](https://qiita.com/sago35/items/92b22e8cbbf99d0cd3ef#tinygo-%E3%81%AE%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AB)
+
 You can verify your installation with these commands:
 
 ```
@@ -919,6 +924,21 @@ Temperature and humidity can be obtained using `ReadTemperatureHumidity()`:
   * https://www.switch-science.com/products/8737
   * https://akizukidenshi.com/catalog/g/g130207/
 
+## Using the RP2040 Internal Temperature Sensor
+
+The RP2040 has a built-in temperature sensor, so you can read the temperature without an external sensor.  
+`machine.ReadTemperature()` returns the value in millidegrees (1/1000 °C), so divide it by 1000 to convert it to °C.  
+This example displays the temperature on the OLED every second and also prints it to the serial port.  
+
+```go
+	temp := float32(machine.ReadTemperature()) / 1000
+	println(fmt.Sprintf("Temperature: %4.1f C", temp))
+```
+
+```shell
+$ tinygo flash --target waveshare-rp2040-zero --size short ./27_cputemp/
+```
+
 ## Using WS2813 LEDs on the GROVE Connector
 
 *Note: This example requires a WS2812 / WS2813 compatible LED stick with a GROVE connector (10 LEDs).*
@@ -937,7 +957,7 @@ The GROVE connector supplies 3.3V, so the brightness is reduced to 1/8.
 ```
 
 ```shell
-$ tinygo flash --target waveshare-rp2040-zero --size short ./25_grove_ws2813/
+$ tinygo flash --target waveshare-rp2040-zero --size short ./28_grove_ws2813/
 ```
 
 # Using sago35/tinygo-keyboard
