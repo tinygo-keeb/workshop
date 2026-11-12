@@ -894,6 +894,7 @@ $ tinygo flash --target waveshare-rp2040-zero --size short  ./22_buzzer/
   * https://github.com/tinygo-org/drivers/blob/release/examples/tone/tone.go
   * https://github.com/sago35/tinygo-examples/blob/main/wioterminal/buzzer/main.go
   * [./23_akatonbo](./23_akatonbo/)
+  * [./29_rotary_menu](./29_rotary_menu/)
   * https://github.com/triring/7Keyx3Oct
 
 ## I2C 接続の温湿度センサーを使う
@@ -1051,6 +1052,7 @@ COM7                 2E8A:0003 waveshare-rp2040-zero
   * https://github.com/conejoninja/midikeeb
 * buzzer
   * [./23_akatonbo](./23_akatonbo/)
+  * [./29_rotary_menu](./29_rotary_menu/)
   * https://github.com/triring/7Keyx3Oct
 * https://x.com/triring/status/1891448348818776323
 * https://github.com/sago35/koebiten

@@ -31,4 +31,5 @@ smoketest:
 	tinygo build -o ./out/26_raindrop.uf2           --target waveshare-rp2040-zero --size short ./26_raindrop
 	tinygo build -o ./out/27_cputemp.uf2            --target waveshare-rp2040-zero --size short ./27_cputemp
 	tinygo build -o ./out/28_grove_ws2813.uf2       --target waveshare-rp2040-zero --size short ./28_grove_ws2813
+	tinygo build -o ./out/29_rotary_menu.uf2        --target waveshare-rp2040-zero --size short ./29_rotary_menu
 	tinygo build -o ./out/80_checker.uf2            --target waveshare-rp2040-zero --size short ./80_checker
